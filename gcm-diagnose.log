@@ -1,0 +1,196 @@
+﻿Diagnose log at 2024-05-15T10:00:01Z
+
+AppPath: C:\Program Files\Git\mingw64\bin\git-credential-manager.exe
+InstallDir: C:\Program Files\Git\mingw64\bin\
+Version: 2.4.1
+
+------------
+Diagnostic: Environment
+Skipped: False
+Success: True
+Exception: None
+Log:
+OSType: Windows
+OSVersion: 10.0 (build 22631)
+Reading environment variables... OK
+ Variables:
+HOMEPATH=\Users\PaulMaerz
+DriverData=C:\Windows\System32\Drivers\DriverData
+COMPUTERNAME=ARBORSYS-22370
+GIT_TRACE2_PARENT_SID=5dae7aaa-e96a-4c25-8ca8-7485a7641c3c
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+OneDrive=C:\Users\PaulMaerz\OneDrive - arborsys GmbH
+ChocolateyLastPathUpdate=133549706857092531
+EFC_9848=1
+SESSIONNAME=Console
+TMP=C:\Users\PAULMA~1\AppData\Local\Temp
+PROCESSOR_REVISION=8e0a
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW;.CPL
+GIT_ASKPASS=c:\Users\PaulMaerz\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\git\dist\askpass.sh
+GIT_EXEC_PATH=C:/Program Files/Git/mingw64/libexec/git-core
+TEMP=C:\Users\PAULMA~1\AppData\Local\Temp
+LOCALAPPDATA=C:\Users\PaulMaerz\AppData\Local
+MSYSTEM=MINGW64
+TERM=xterm-256color
+ProgramW6432=C:\Program Files
+JAVA_HOME=C:\Users\PaulMaerz\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.8.101-hotspot\
+USERDOMAIN=AzureAD
+PACKAGES_TOKEN=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
+Path=C:/Program Files/Git/mingw64/libexec/git-core;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\PaulMaerz\bin;C:\Program Files\Eclipse Adoptium\jdk-21.0.2.13-hotspot\bin;C:\Python312\Scripts\;C:\Python312\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\PaulMaerz\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Users\PaulMaerz\AppData\Local\Programs\Eclipse Adoptium\jdk-17.0.8.101-hotspot\bin;C:\Users\PaulMaerz\AppData\Local\Microsoft\WindowsApps;C:\Users\PaulMaerz\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\PaulMaerz\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\PaulMaerz\AppData\Roaming\npm
+TERM_PROGRAM=vscode
+PROCESSOR_LEVEL=6
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
+TMPDIR=C:\Users\PAULMA~1\AppData\Local\Temp
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+TERM_PROGRAM_VERSION=1.89.1
+configsetroot=C:\WINDOWS\ConfigSetRoot
+ProgramFiles(x86)=C:\Program Files (x86)
+PUBLIC=C:\Users\Public
+NUMBER_OF_PROCESSORS=8
+CommonProgramFiles=C:\Program Files (x86)\Common Files
+VSCODE_INJECTION=1
+VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-c835b5d6e1-sock
+CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_8984_LPVNSUVDSPVZZUDI
+VSCODE_GIT_ASKPASS_MAIN=c:\Users\PaulMaerz\AppData\Local\Programs\Microsoft VS Code\resources\app\extensions\git\dist\askpass-main.js
+ProgramFiles=C:\Program Files (x86)
+ProgramData=C:\ProgramData
+MSYS=disable_pcon
+ChocolateyInstall=C:\ProgramData\chocolatey
+PLINK_PROTOCOL=ssh
+VSCODE_GIT_ASKPASS_NODE=C:\Users\PaulMaerz\AppData\Local\Programs\Microsoft VS Code\Code.exe
+SystemRoot=C:\WINDOWS
+NVM_SYMLINK=C:\Program Files\nodejs
+NVM_HOME=C:\Users\PaulMaerz\AppData\Roaming\nvm
+ORIGINAL_XDG_CURRENT_DESKTOP=undefined
+HOME=C:\Users\PaulMaerz
+CommonProgramW6432=C:\Program Files\Common Files
+ZES_ENABLE_SYSMAN=1
+LOGONSERVER=\\ARBORSYS-22370
+USERPROFILE=C:\Users\PaulMaerz
+COLORTERM=truecolor
+USERDOMAIN_ROAMINGPROFILE=AzureAD
+APPDATA=C:\Users\PaulMaerz\AppData\Roaming
+HOMEDRIVE=C:
+OneDriveCommercial=C:\Users\PaulMaerz\OneDrive - arborsys GmbH
+PSModulePath=C:\Users\PaulMaerz\OneDrive - arborsys GmbH\Dokumente\WindowsPowerShell\Modules;C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+USERNAME=PaulMaerz
+PROCESSOR_ARCHITEW6432=AMD64
+PROCESSOR_ARCHITECTURE=x86
+OS=Windows_NT
+ComSpec=C:\WINDOWS\system32\cmd.exe
+SystemDrive=C:
+windir=C:\WINDOWS
+LANG=en_US.UTF-8
+ALLUSERSPROFILE=C:\ProgramData
+
+
+------------
+Diagnostic: File system
+Skipped: False
+Success: True
+Exception: None
+Log:
+Temporary directory is 'C:\Users\PaulMaerz\AppData\Local\Temp\'...
+Checking basic file I/O...
+Writing to temporary file 'C:\Users\PaulMaerz\AppData\Local\Temp\f2ab40b0b9e9a44955dcfd8e'... OK
+Reading from temporary file 'C:\Users\PaulMaerz\AppData\Local\Temp\f2ab40b0b9e9a44955dcfd8e'... OK
+Deleting temporary file 'C:\Users\PaulMaerz\AppData\Local\Temp\f2ab40b0b9e9a44955dcfd8e'... OK
+Testing IFileSystem instance...
+UserHomePath: C:\Users\PaulMaerz
+UserDataDirectoryPath: C:\Users\PaulMaerz\.gcm
+GetCurrentDirectory(): C:\Users\PaulMaerz\OneDrive - arborsys GmbH\Desktop\IncrementalTest
+
+------------
+Diagnostic: Networking
+Skipped: False
+Success: True
+Exception: None
+Log:
+Checking networking and HTTP stack...
+Creating HTTP client... OK
+IsNetworkAvailable: True
+Sending HEAD request to http://example.com...Sending HEAD request to https://example.com... OK
+ OK
+Acquiring free TCP port... OK
+Testing local HTTP loopback connections...
+Creating new HTTP listener for http://localhost:55390/... OK
+Waiting for loopback connection... OK
+Writing response... OK
+Waiting for response data... OK
+Loopback connection data OK
+
+------------
+Diagnostic: Git
+Skipped: False
+Success: True
+Exception: None
+Log:
+Getting Git version... OK
+Git version is '2.44.0.windows.1'
+Locating current repository... OK
+Git repository at 'C:/Users/PaulMaerz/OneDrive - arborsys GmbH/Desktop/IncrementalTest/.git'
+Listing all Git configuration... OK
+Git configuration:
+file:C:/Program Files/Git/etc/gitconfig	diff.astextplain.textconv=astextplain
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.clean=git-lfs clean -- %f
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.smudge=git-lfs smudge -- %f
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.process=git-lfs filter-process
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.required=true
+file:C:/Program Files/Git/etc/gitconfig	http.sslbackend=openssl
+file:C:/Program Files/Git/etc/gitconfig	http.sslcainfo=C:/Program Files/Git/mingw64/etc/ssl/certs/ca-bundle.crt
+file:C:/Program Files/Git/etc/gitconfig	core.autocrlf=true
+file:C:/Program Files/Git/etc/gitconfig	core.fscache=true
+file:C:/Program Files/Git/etc/gitconfig	core.symlinks=false
+file:C:/Program Files/Git/etc/gitconfig	pull.rebase=false
+file:C:/Program Files/Git/etc/gitconfig	credential.helper=manager
+file:C:/Program Files/Git/etc/gitconfig	credential.https://dev.azure.com.usehttppath=true
+file:C:/Program Files/Git/etc/gitconfig	init.defaultbranch=master
+file:C:/Users/PaulMaerz/.gitconfig	user.name=Paul
+file:C:/Users/PaulMaerz/.gitconfig	user.email=paulmaerz007@gmail.com
+file:C:/Users/PaulMaerz/.gitconfig	credential.helper=
+file:C:/Users/PaulMaerz/.gitconfig	credential.helper=C:/Program\ Files/Git/mingw64/bin/git-credential-manager.exe
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=false
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	core.symlinks=false
+file:.git/config	core.ignorecase=true
+file:.git/config	remote.origin.url=https://github.com/Dovo23/JavaIncremental.git
+file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+
+
+------------
+Diagnostic: Credential storage
+Skipped: False
+Success: True
+Exception: None
+Log:
+ICredentialStore instance is of type: CredentialStore
+Writing test credential... OK
+Reading test credential... OK
+Deleting test credential... OK
+
+------------
+Diagnostic: Microsoft authentication (AAD/MSA)
+Skipped: False
+Success: True
+Exception: None
+Log:
+Broker is not enabled.
+Flow type is: Auto
+Gathering MSAL token cache data... OK
+CacheDirectory: C:\Users\PaulMaerz\AppData\Local\.IdentityService
+CacheFileName: msal.cache
+CacheFilePath: C:\Users\PaulMaerz\AppData\Local\.IdentityService\msal.cache
+Creating cache helper... OK
+Verifying MSAL token cache persistence... OK
+
+------------
+Diagnostic: GitHub API
+Skipped: False
+Success: True
+Exception: None
+Log:
+Using 'https://github.com/' as API target.
+Querying '/meta' endpoint... OK
+

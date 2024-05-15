@@ -14,6 +14,7 @@ import com.example.incrementalgame.entities.Building;
 import com.example.incrementalgame.entities.Enemy;
 import com.example.incrementalgame.entities.GameButton;
 import com.example.incrementalgame.entities.Player;
+import com.example.incrementalgame.managers.EntityManager;
 
 public class IncrementalGame extends ApplicationAdapter {
     private Assets assets;
@@ -24,9 +25,10 @@ public class IncrementalGame extends ApplicationAdapter {
     private Array<Enemy> enemies;
     private GameButton buyMinerButton, buyBakeryButton, buyFactoryButton, prestigeButton;
     private Building miner, bakery, factory;
+    private EntityManager entityManager;
 
     public static int gold = 4000;
-    private float speed = 200;
+    // private float speed = 200;
     private float goldAccumulator = 0;
     private int prestigeLevel = 0;
     private double nextPrestigeRequirement = 5000;
@@ -38,13 +40,14 @@ public class IncrementalGame extends ApplicationAdapter {
        batch = new SpriteBatch();
        camera = new OrthographicCamera();
        viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
+       entityManager = new EntityManager(assets);
 
        //entities
-       enemies = new Array<>();
-       enemies.add(new Enemy(700, 20, 64, 64, 100, 5));
-       enemies.add(new Enemy(600, 20, 64, 64, 120, 7));
+    //    enemies = new Array<>();
+    //    enemies.add(new Enemy(700, 20, 64, 64, 100, 5));
+    //    enemies.add(new Enemy(600, 20, 64, 64, 120, 7));
 
-       player = new Player(350, 20, 64, 64, 100, 10);
+    //    player = new Player(350, 20, 64, 64, 100, 10);
 
        //buildings
        miner = new Building("Miner", 10, 1);
@@ -66,25 +69,25 @@ public class IncrementalGame extends ApplicationAdapter {
         Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
 
         handleInput();
-        checkCollisions();
-        updateGame();
+        // checkCollisions();
+        // updateGame();
 
         viewport.apply();
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-
         batch.draw(assets.groundTexture, 0, 0, GameConfig.WORLD_WIDTH, 50);
-
+        entityManager.render(batch);
+        entityManager.update(Gdx.graphics.getDeltaTime());
         //entities
-        for (Enemy enemy : enemies) {
-            batch.draw(assets.enemyTexture, enemy.getBounds().x, enemy.getBounds().y, enemy.getBounds().width,
-                    enemy.getBounds().height);
-        }
+        // for (Enemy enemy : enemies) {
+        //     batch.draw(assets.enemyTexture, enemy.getBounds().x, enemy.getBounds().y, enemy.getBounds().width,
+        //             enemy.getBounds().height);
+        // }
         
-        if (player != null) {
-            batch.draw(assets.playerTexture, player.getBounds().x, player.getBounds().y, player.getBounds().width, player.getBounds().height);
-        }
+        // if (player != null) {
+        //     batch.draw(assets.playerTexture, player.getBounds().x, player.getBounds().y, player.getBounds().width, player.getBounds().height);
+        // }
 
         buyMinerButton.draw(batch, assets.font, assets.buttonTexture);
         buyBakeryButton.draw(batch, assets.font, assets.buttonTexture);
@@ -110,16 +113,16 @@ public class IncrementalGame extends ApplicationAdapter {
         updateIncome(Gdx.graphics.getDeltaTime());
     }
    
-    private void updateGame() {
-        for (int i = enemies.size - 1; i >= 0; i--) {
-            if (enemies.get(i).isDefeated()) {
-                enemies.removeIndex(i); // Remove defeated enemies with libGDX Array method
-            }
-        }
-        if (player.isDefeated()) {
-                player.resetPlayer();
-        }
-     }
+    // private void updateGame() {
+    //     for (int i = enemies.size - 1; i >= 0; i--) {
+    //         if (enemies.get(i).isDefeated()) {
+    //             enemies.removeIndex(i); // Remove defeated enemies with libGDX Array method
+    //         }
+    //     }
+    //     if (player.isDefeated()) {
+    //             player.resetPlayer();
+    //     }
+    //  }
         
      private void handleInput() {
          if (Gdx.input.justTouched()) {
@@ -137,28 +140,28 @@ public class IncrementalGame extends ApplicationAdapter {
                  performPrestige();
              }
          }
-         if (player != null && player.isAlive()) {
-             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                 player.moveLeft(speed * Gdx.graphics.getDeltaTime());
-             }
-             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                 player.moveRight(speed * Gdx.graphics.getDeltaTime());
-             }
-         }
+        //  if (player != null && player.isAlive()) {
+        //      if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        //          player.moveLeft(speed * Gdx.graphics.getDeltaTime());
+        //      }
+        //      if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        //          player.moveRight(speed * Gdx.graphics.getDeltaTime());
+        //      }
+        //  }
      }
     
    
-    private void checkCollisions() {
-        if (player != null) {
-            for (Enemy enemy : enemies) {
-                if (player.getBounds().overlaps(enemy.getBounds())) {
-                    player.takeDamage(enemy.getDamage());
-                    enemy.takeDamage(player.getDamage());
-                    System.out.println("Player health: " + player.getHealth() + " Enemy health: " + enemy.getHealth());
-                }
-            }
-        }
-}
+//     private void checkCollisions() {
+//         if (player != null) {
+//             for (Enemy enemy : enemies) {
+//                 if (player.getBounds().overlaps(enemy.getBounds())) {
+//                     player.takeDamage(enemy.getDamage());
+//                     enemy.takeDamage(player.getDamage());
+//                     System.out.println("Player health: " + player.getHealth() + " Enemy health: " + enemy.getHealth());
+//                 }
+//             }
+//         }
+// }
 
 
     private void updateButtonLabels() {
