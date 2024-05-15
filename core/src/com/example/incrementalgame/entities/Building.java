@@ -8,7 +8,6 @@ public class Building {
     private float baseIncomePerSecond;
     private float incomePerSecond;
     private float totalMulti = 1.0f; 
-    @SuppressWarnings("unused")
     private String name;
 
     public Building(String name, int baseCost, float baseIncomePerSecond) {
@@ -17,13 +16,6 @@ public class Building {
         this.baseIncomePerSecond = baseIncomePerSecond;
         this.incomePerSecond = baseIncomePerSecond;
         this.level = 0;
-    }
-
-    public void buy() {
-        if (IncrementalGame.gold >= getCost()) {
-            IncrementalGame.gold -= getCost();
-            level++;
-        }
     }
 
     public void resetWithMultiplier() {
@@ -41,5 +33,16 @@ public class Building {
 
     public float getIncomePerSecondBase() {
         return baseIncomePerSecond * totalMulti;
+    }
+
+	public Object getName() {
+        return name;
+	}
+
+    public void buy() {
+       if (IncrementalGame.gold >= getCost()) {
+            IncrementalGame.gold -= getCost();
+            level++;
+        }
     }
 }
