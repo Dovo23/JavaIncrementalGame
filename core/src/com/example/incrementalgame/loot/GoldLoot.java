@@ -3,7 +3,8 @@ package com.example.incrementalgame.loot;
 import com.example.incrementalgame.interfaces.Loot;
 import com.example.incrementalgame.managers.ResourceManager;
 
-public class GoldLoot implements Loot{
+public class GoldLoot implements Loot {
+    ResourceManager resourceManager;
     private int amount;
 
 

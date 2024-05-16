@@ -20,15 +20,19 @@ public class EntityManager {
         this.resourceManager = resourceManager;
         
         enemies = new Array<>();
-        // Initialize player and enemies
         player = new Player(350, 20, 64, 64, 1000, 10);
         spawnEnemies(); //can spawn depending on certain factors
     }
 
     private void spawnEnemies() {
-        // Spawn enemies at game start or based on some conditions
-        enemies.add(new Enemy(700, 20, 64, 64, 100, 5));
-        enemies.add(new Enemy(600, 20, 64, 64, 120, 7));
+
+        Enemy enemy1 = new Enemy(700, 20, 64, 64, 100, 5);
+        enemy1.setResourceManager(resourceManager);  
+        enemies.add(enemy1);
+
+        Enemy enemy2 = new Enemy(600, 20, 64, 64, 120, 7);
+        enemy2.setResourceManager(resourceManager);  
+        enemies.add(enemy2);
     }
 
     public void update(float deltaTime) {

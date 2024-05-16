@@ -19,9 +19,10 @@ public class IncrementalGame extends ApplicationAdapter {
     private OrthographicCamera camera;
     private FitViewport viewport;
     private GameButton prestigeButton;
+    private ResourceManager resourceManager;
     private EntityManager entityManager;
     private BuildingManager buildingManager;
-    private ResourceManager resourceManager;
+    
     
 
     public static  int gold = 4000;
@@ -51,7 +52,7 @@ public class IncrementalGame extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
-        // checkEntityManager();
+        checkResourceManager();
         handleInput();
 
         viewport.apply();
@@ -82,8 +83,8 @@ public class IncrementalGame extends ApplicationAdapter {
         updateIncome(Gdx.graphics.getDeltaTime());
     }
    
-    private void checkEntityManager() {
-        if (entityManager == null) {
+    private void checkResourceManager() {
+        if (resourceManager == null) {
             System.out.println("Entity Manager is null");
         }
         else {
@@ -117,12 +118,15 @@ public class IncrementalGame extends ApplicationAdapter {
     
     private void updateIncome(float delta) {
         goldAccumulator += delta;
-        // if(player!=null) {
-          if (goldAccumulator >= 1) {
-            resourceManager.addGold((int) (buildingManager.getTotalGoldPerSecond()));
-            goldAccumulator -= 1; // Reset accumulator
-        }  
-        // }
+        if (resourceManager != null) {
+            if (goldAccumulator >= 1) {
+                resourceManager.addGold((int) (buildingManager.getTotalGoldPerSecond()));
+                goldAccumulator -= 1; // Reset accumulator
+            }
+        }
+       else {
+            System.out.println("Resource Manager is null");
+        }
         
     }
 
