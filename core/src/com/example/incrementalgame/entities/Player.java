@@ -6,6 +6,7 @@ public class Player extends Entity {
     private float initialX;
     private float initialY;
     private int initialHealth;
+    
     public Player(float x, float y, float width, float height, int health, int damage) {
         super(x, y, width, height, health, damage);
         this.initialX = x;
@@ -25,13 +26,15 @@ public class Player extends Entity {
     protected void onDefeated() {
         super.onDefeated();
         isAlive = false;
-        //death animation, loot drop, etc
+        //death animation
         System.out.println("Player defeated!");
     }
 
     public boolean isAlive() {
         return isAlive;
     }
+
+    
     
     public void resetPlayer() {
         if (isAlive == false) {
@@ -41,4 +44,8 @@ public class Player extends Entity {
             isAlive = true; // Revive player
         }
     }
+
+   
+
+
 }

@@ -1,6 +1,5 @@
 package com.example.incrementalgame.entities;
 
-import com.example.incrementalgame.IncrementalGame;
 
 public class Building {
     private int level;
@@ -9,6 +8,8 @@ public class Building {
     private float incomePerSecond;
     private float totalMulti = 1.0f; 
     private String name;
+
+   
 
     public Building(String name, int baseCost, float baseIncomePerSecond) {
         this.name = name;
@@ -35,14 +36,12 @@ public class Building {
         return baseIncomePerSecond * totalMulti;
     }
 
-	public Object getName() {
+    public Object getName() {
         return name;
-	}
-
-    public void buy() {
-       if (IncrementalGame.gold >= getCost()) {
-            IncrementalGame.gold -= getCost();
-            level++;
-        }
     }
+    
+    public void increaseLevel() {
+        level++;
+    }
+
 }

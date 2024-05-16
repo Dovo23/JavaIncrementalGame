@@ -13,9 +13,12 @@ public class EntityManager {
     private Player player;
     private Assets assets;
     private float speed = 200;
+    private ResourceManager resourceManager;
 
-    public EntityManager(Assets assets) {
+    public EntityManager(Assets assets, ResourceManager resourceManager) {
         this.assets = assets;
+        this.resourceManager = resourceManager;
+        
         enemies = new Array<>();
         // Initialize player and enemies
         player = new Player(350, 20, 64, 64, 1000, 10);
