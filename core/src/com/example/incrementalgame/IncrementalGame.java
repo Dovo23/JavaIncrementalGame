@@ -11,6 +11,7 @@ import com.example.incrementalgame.config.GameConfig;
 import com.example.incrementalgame.entities.GameButton;
 import com.example.incrementalgame.managers.BuildingManager;
 import com.example.incrementalgame.managers.EntityManager;
+import com.example.incrementalgame.managers.PrestigeManager;
 import com.example.incrementalgame.managers.ResourceManager;
 
 public class IncrementalGame extends ApplicationAdapter {
@@ -18,17 +19,18 @@ public class IncrementalGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private FitViewport viewport;
-    private GameButton prestigeButton;
+    // private GameButton prestigeButton;
     private ResourceManager resourceManager;
     private EntityManager entityManager;
     private BuildingManager buildingManager;
+    private PrestigeManager prestigeManager;
     
     
 
     public static  int gold = 4000;
     private float goldAccumulator = 0;
-    private int prestigeLevel = 0;
-    private double nextPrestigeRequirement = 5000;
+    // private int prestigeLevel = 0;
+    // private double nextPrestigeRequirement = 5000;
 
 
     @Override
@@ -41,9 +43,11 @@ public class IncrementalGame extends ApplicationAdapter {
        resourceManager = new ResourceManager(4000);
        entityManager = new EntityManager(assets, resourceManager);
        buildingManager = new BuildingManager(assets, resourceManager);
+       prestigeManager = new PrestigeManager(assets, resourceManager, buildingManager);
+       prestigeManager.create();
        
 
-       prestigeButton = new GameButton(650, 150, GameConfig.BUTTON_WIDTH, GameConfig.BUTTON_HEIGHT, "Prestige");
+    //    prestigeButton = new GameButton(650, 150, GameConfig.BUTTON_WIDTH, GameConfig.BUTTON_HEIGHT, "Prestige");
     }
 
 
@@ -52,7 +56,7 @@ public class IncrementalGame extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
-        checkResourceManager();
+        // checkResourceManager();
         handleInput();
 
         viewport.apply();
@@ -67,16 +71,13 @@ public class IncrementalGame extends ApplicationAdapter {
         buildingManager.render(batch);
         buildingManager.update(Gdx.graphics.getDeltaTime());
 
-        //prestige button appears if requirement met
-        if (resourceManager.getGold() >= nextPrestigeRequirement) {
-            prestigeButton.draw(batch, assets.font, assets.buttonTexture);
-        }
+        prestigeManager.render(batch);
 
-        
         assets.font.draw(batch, "Gold: " + resourceManager.getGold(), 10, GameConfig.WORLD_HEIGHT - 20);
         assets.font.draw(batch, buildingManager.getTotalGoldPerSecond() + " gold/s", 10, GameConfig.WORLD_HEIGHT - 40);
-        assets.font.draw(batch, "Prestige Level: " + prestigeLevel, 10, GameConfig.WORLD_HEIGHT - 60);
-        assets.font.draw(batch, "Required gold till next prestige: " + (int) nextPrestigeRequirement, 10, GameConfig.WORLD_HEIGHT - 80);
+        assets.font.draw(batch, "Prestige Level: " + prestigeManager.getPresigeLevel(), 10, GameConfig.WORLD_HEIGHT - 60);
+        assets.font.draw(batch, "Required gold till next prestige: " + (int) prestigeManager.getNextPrestigeRequirement(), 10, GameConfig.WORLD_HEIGHT - 80);
+        assets.font.draw(batch, "Exp: " + (int) resourceManager.getExp(), 10, GameConfig.WORLD_HEIGHT - 100);
     
         batch.end();
 
@@ -99,22 +100,22 @@ public class IncrementalGame extends ApplicationAdapter {
             float x = touchPos.x;
             float y = touchPos.y;
             buildingManager.handleButtonInput(x, y);
-
-            if (prestigeButton.getBounds().contains(x, y) && resourceManager.getGold() >= nextPrestigeRequirement) {
-                performPrestige();
-            }
+            prestigeManager.handleButtonInput(x, y);
+            // if (prestigeButton.getBounds().contains(x, y) && resourceManager.getGold() >= nextPrestigeRequirement) {
+            //     performPrestige();
+            // }
         }
     }
 
-   //gotta fix the building references
-    private void performPrestige() {
-    resourceManager.setGold(100);
-    buildingManager.getBuildingByName("Miner").resetWithMultiplier();
-    buildingManager.getBuildingByName("Bakery").resetWithMultiplier();
-    buildingManager.getBuildingByName("Factory").resetWithMultiplier();
-    prestigeLevel++;
-    nextPrestigeRequirement *= 2; // Double the requirement for the next prestige
-}
+
+//     private void performPrestige() {
+//     resourceManager.setGold(100);
+//     buildingManager.getBuildingByName("Miner").resetWithMultiplier();
+//     buildingManager.getBuildingByName("Bakery").resetWithMultiplier();
+//     buildingManager.getBuildingByName("Factory").resetWithMultiplier();
+//     prestigeLevel++;
+//     nextPrestigeRequirement *= 2; // Double the requirement for the next prestige
+// }
     
     private void updateIncome(float delta) {
         goldAccumulator += delta;

@@ -12,6 +12,6 @@ public class Exp implements Loot {
 
     @Override
     public void apply(ResourceManager resourceManager) {
-        resourceManager.addExperience(exp);
+        resourceManager.addExp(exp);
     }
 }

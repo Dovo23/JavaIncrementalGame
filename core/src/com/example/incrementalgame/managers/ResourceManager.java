@@ -27,11 +27,11 @@ public class ResourceManager {
         return gold;
     }
 
-    public void addExperience(int amount) {
+    public void addExp(int amount) {
         this.experience += amount;
     }
 
-    public int getExperience() {
+    public int getExp() {
         return experience;
     }
 }
