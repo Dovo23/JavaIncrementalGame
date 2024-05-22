@@ -65,10 +65,15 @@ public class Player extends Entity {
         if (isAlive == false) {
             health = initialHealth; // Reset health
             damage = initialDamage; // Reset damage both are more for the prestige and not death
-            bounds.x = initialX; // Reset x position
-            bounds.y = initialY; // Reset y position
+            resetPlayerPos();
             isAlive = true; // Revive player
+            System.out.println("Player got reset!");
         }
+    }
+
+    public void resetPlayerPos() {
+        bounds.x = initialX; // Reset x position
+        bounds.y = initialY; // Reset y position
     }
 
     public String getTitle() {

@@ -15,6 +15,7 @@ import com.example.incrementalgame.managers.BuildingManager;
 import com.example.incrementalgame.managers.EntityManager;
 import com.example.incrementalgame.managers.PrestigeManager;
 import com.example.incrementalgame.managers.ResourceManager;
+import com.example.incrementalgame.managers.WaveManager;
 
 public class IncrementalGame extends ApplicationAdapter {
     private Assets assets;
@@ -26,6 +27,7 @@ public class IncrementalGame extends ApplicationAdapter {
     private EntityManager entityManager;
     private BuildingManager buildingManager;
     private PrestigeManager prestigeManager;
+    private WaveManager waveManager;
     private Player player;
     
     public static  int gold = 4000;
@@ -40,11 +42,16 @@ public class IncrementalGame extends ApplicationAdapter {
        viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
 
        resourceManager = new ResourceManager(4000);
-       entityManager = new EntityManager(assets, resourceManager);
+
+       waveManager = new WaveManager();
+       entityManager = new EntityManager(assets, resourceManager, waveManager);
+       waveManager.initialize(entityManager);
+
        buildingManager = new BuildingManager(assets, resourceManager);
        prestigeManager = new PrestigeManager(assets, resourceManager, buildingManager);
+
        prestigeManager.create();
-    
+       waveManager.startNextWave();
     }
 
 
@@ -75,6 +82,7 @@ public class IncrementalGame extends ApplicationAdapter {
         assets.font.draw(batch, buildingManager.getTotalGoldPerSecond() + " gold/s", 10, GameConfig.WORLD_HEIGHT - 40);
         assets.font.draw(batch, "Prestige Level: " + prestigeManager.getPrestigeLevel(), 10, GameConfig.WORLD_HEIGHT - 60);
         assets.font.draw(batch, "Required gold till next prestige: " + (int) prestigeManager.getNextPrestigeRequirement(), 10, GameConfig.WORLD_HEIGHT - 80);
+        assets.font.draw(batch, "Wave: " + (int) waveManager.getWaveNumber(), 10, GameConfig.WORLD_HEIGHT - 100);
         
        //maybe will be moved somewhere else later
         

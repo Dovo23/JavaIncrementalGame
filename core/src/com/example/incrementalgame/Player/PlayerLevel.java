@@ -17,10 +17,10 @@ public class PlayerLevel {
     }
 
     public void checkExpThreshold(Player player) {
-        System.out.println("Current EXP: " + resourceManager.getExp() + ", Required for next level: " + nextLevelExp);
+        //System.out.println("Current EXP: " + resourceManager.getExp() + ", Required for next level: " + nextLevelExp);
        while (resourceManager.getExp() >= nextLevelExp) {
            levelUp(player);
-           System.out.println("Level up! Current level: " + level);
+           ///System.out.println("Level up! Current level: " + level);
            }
     }
 
@@ -30,7 +30,7 @@ public class PlayerLevel {
         nextLevelExp = calculateNextLevelExp();
         updateTitle(player);
         player.updateStats(1.1f);
-        System.out.println("Leveled Up! New Level: " + level + ", Next Level EXP: " + nextLevelExp);
+        //System.out.println("Leveled Up! New Level: " + level + ", Next Level EXP: " + nextLevelExp);
 }
     
 
