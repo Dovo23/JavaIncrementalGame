@@ -6,12 +6,12 @@ public class ResourceManager {
 
     public ResourceManager(int initialGold) {
         this.gold = initialGold;
-        this.experience = 0;
+        this.experience = 1000;
     }
 
-    public void addGold(int amount) {
+    public void addGold(float amount) {
         this.gold += amount;
-        System.out.println("Gold updated: " + gold);
+        // System.out.println("Gold updated: " + gold);
     }
 
     public void setGold(int amount) {

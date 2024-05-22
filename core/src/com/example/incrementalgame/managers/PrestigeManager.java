@@ -43,10 +43,10 @@ public class PrestigeManager {
         buildingManager.getBuildingByName("Bakery").resetWithMultiplier();
         buildingManager.getBuildingByName("Factory").resetWithMultiplier();
         prestigeLevel++;
-        nextPrestigeRequirement *= 2; // Double the requirement for the next prestige
+        nextPrestigeRequirement *= 2; 
     }
 
-    public int getPresigeLevel() {
+    public int getPrestigeLevel() {
         return prestigeLevel;
     }
  

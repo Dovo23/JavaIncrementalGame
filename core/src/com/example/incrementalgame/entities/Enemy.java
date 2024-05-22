@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.example.incrementalgame.interfaces.Loot;
 import com.example.incrementalgame.loot.GoldLoot;
-import com.example.incrementalgame.managers.EntityManager;
 import com.example.incrementalgame.managers.ResourceManager;
 import com.example.incrementalgame.loot.Exp;
 
