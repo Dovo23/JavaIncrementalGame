@@ -16,29 +16,39 @@ public class EntityManager {
     private float speed = 200;
     private ResourceManager resourceManager;
     private WaveManager waveManager;
+    private AgeManager ageManager;
+    private PrestigeManager prestigeManager;
 
     public EntityManager(Assets assets, ResourceManager resourceManager, WaveManager waveManager) {
         this.assets = assets;
         this.resourceManager = resourceManager;
         this.waveManager = waveManager;
+        // this.prestigeManager = prestigeManager;
 
         enemies = new Array<>();
-        player = new Player(350, 20, 64, 64, 1000, 10, resourceManager);
+        player = new Player(350, 20, 64, 64, 50, 3, resourceManager);
         // player.setResourceManager(resourceManager); //important to prevent a nullpointer exception
         // spawnEnemies(); 
+        ageManager = new AgeManager(player);
         waveManager.initialize(this); // Initialize waveManager with this EntityManager
+        
     }
 
-    // private void spawnEnemies() {
+    public void spawnEnemies(float healthMulti, float damageMulti, float expMulti) {
 
-    //     Enemy enemy1 = new Enemy(700, 20, 64, 64, 100, 5);
-    //     enemy1.setResourceManager(resourceManager);  //important to prevent a nullpointer exception
-    //     enemies.add(enemy1);
+        Enemy enemy1 = new Enemy(700, 20, 64, 64, (int) (10 * healthMulti), (int) (1 * damageMulti));
+        enemy1.setResourceManager(resourceManager); //important to prevent a nullpointer exception
+        enemy1.setWaveManager(waveManager);
+        enemies.add(enemy1);
+        System.out.println("Enemy1HP:" + enemy1.getHealth() + " Enemy1Damage:" + enemy1.getDamage());
 
-    //     Enemy enemy2 = new Enemy(600, 20, 64, 64, 120, 7);
-    //     enemy2.setResourceManager(resourceManager);  //important to prevent a nullpointer exception
-    //     enemies.add(enemy2);
-    // }
+        Enemy enemy2 = new Enemy(600, 20, 64, 64, (int) (15 * healthMulti), (int) (2 * damageMulti));
+        enemy2.setResourceManager(resourceManager); //important to prevent a nullpointer exception
+        enemy2.setWaveManager(waveManager);
+        enemies.add(enemy2);
+        System.out.println("Enemy2HP:" + enemy2.getHealth() + " Enemy2Damage:" + enemy2.getDamage());
+
+    }
 
     public void addEnemy(Enemy enemy) {
         enemy.setResourceManager(resourceManager);
@@ -46,14 +56,11 @@ public class EntityManager {
     }
 
     public void update(float deltaTime) {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            //resourceManager.addExp(100);
-            player.resetPlayerPos();
+        if (Gdx.input.isKeyPressed(Input.Keys.L)) {  //automatic level up for testing
+            resourceManager.addExp(500);
         }
         player.checkExpThreshold();
-        //System.out.println("Checking EXP Threshold - Current EXP: " + resourceManager.getExp());
-        //System.out.println("next exp: " + player.getNextLevelExp() );
-
+        ageManager.update(deltaTime);
         movement();
         checkCollisions();
 
@@ -69,6 +76,11 @@ public class EntityManager {
             player.resetPlayerPos();
             waveManager.startNextWave();
         }
+        if (player.getAge() >= 100) {
+            // Trigger prestige if age reaches 100
+            prestigeManager.performPrestige();
+            System.out.println("Current expMulti: " + resourceManager.getExpMulti());
+        }
 
     }
 
@@ -78,7 +90,7 @@ public class EntityManager {
                 if (player.getBounds().overlaps(enemy.getBounds())) {
                     player.takeDamage(enemy.getDamage());
                     enemy.takeDamage(player.getDamage());
-                    //System.out.println("Player health: " + player.getHealth() + " Enemy health: " + enemy.getHealth() + " Enemy damage: " + enemy.getDamage() + " Player damage: " + player.getDamage());
+                    System.out.println("Player health: " + player.getCurrentHealth() + " Enemy health: " + enemy.getHealth() + " Enemy damage: " + enemy.getDamage() + " Player damage: " + player.getDamage());
                 }
             }
         }
@@ -112,8 +124,9 @@ public class EntityManager {
         assets.font.draw(batch, "Exp: " + (int) resourceManager.getExp() + "/" + (int) player.getNextLevelExp(), 10,
                 GameConfig.WORLD_HEIGHT - 160);
         assets.font.draw(batch, "Title: " + player.getTitle(), 10, GameConfig.WORLD_HEIGHT - 180);
-        assets.font.draw(batch, "Health: " + player.getHealth(), 10, GameConfig.WORLD_HEIGHT - 200);
-        assets.font.draw(batch, "Damage: " + player.getDamage(), 10, GameConfig.WORLD_HEIGHT - 220);
+        assets.font.draw(batch, "Age: " + player.getAge(), 10, GameConfig.WORLD_HEIGHT - 200);
+        assets.font.draw(batch, "Health: " + player.getCurrentHealth()+ "/" + player.getHealth(), 10, GameConfig.WORLD_HEIGHT - 220);
+        assets.font.draw(batch, "Damage: " + player.getDamage(), 10, GameConfig.WORLD_HEIGHT - 240);
     }
 
     public Player getPlayer() {
@@ -122,6 +135,10 @@ public class EntityManager {
 
     public Array<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public void initialize(PrestigeManager prestigeManager) {
+        this.prestigeManager = prestigeManager;
     }
 
 }

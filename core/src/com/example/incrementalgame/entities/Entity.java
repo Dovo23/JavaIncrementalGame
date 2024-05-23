@@ -3,20 +3,24 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Entity {
     protected Rectangle bounds;
-    protected int health;
+    protected int health;  //acts as max health
     protected int damage;
+    protected int currentHealth;
+    protected int currentDamage;
     protected boolean isDefeated = false;
 
     public Entity(float x, float y, float width, float height, int health, int damage) {
         this.bounds = new Rectangle(x, y, width, height);
         this.health = health;
         this.damage = damage;
+        this.currentHealth = health;
+        this.currentDamage = damage;
     }
 
     public void takeDamage(int damage) {
-        this.health -= damage;
-        if (this.health < 0) {
-            this.health = 0;
+        this.currentHealth -= damage;
+        if (this.currentHealth < 0) {
+            this.currentHealth = 0;
             setDefeated(true);
         }
     }
@@ -27,6 +31,10 @@ public class Entity {
 
     public int getHealth() {
         return health;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
     public int getDamage() {

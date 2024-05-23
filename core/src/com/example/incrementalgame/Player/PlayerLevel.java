@@ -29,7 +29,11 @@ public class PlayerLevel {
         resourceManager.addExp(-nextLevelExp);
         nextLevelExp = calculateNextLevelExp();
         updateTitle(player);
-        player.updateStats(1.1f);
+        float multiplier = 1.01f;
+        for (int i = 1; i < level; i++) {
+           multiplier *= 1.01f;
+        }
+        player.updateStats(multiplier);
         //System.out.println("Leveled Up! New Level: " + level + ", Next Level EXP: " + nextLevelExp);
 }
     
@@ -81,5 +85,18 @@ public class PlayerLevel {
 
     public void outPutNextExp() {
         System.out.println("Next level exp: " + nextLevelExp);
+    }
+
+    public void resetLevel() {
+       this.level = 1;
+    }
+
+    public void resetTitle() {
+        this.title = "Beggar";
+    }
+
+    public void resetExp() {
+        resourceManager.setExp(0);
+        this.nextLevelExp = 20;
     }
 }

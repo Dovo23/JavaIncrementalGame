@@ -3,10 +3,12 @@ package com.example.incrementalgame.managers;
 public class ResourceManager {
     private int gold;
     private int experience;
+    private float expMulti;
 
     public ResourceManager(int initialGold) {
         this.gold = initialGold;
         this.experience = 1000;
+        this.expMulti = 1.0f;
     }
 
     public void addGold(float amount) {
@@ -16,6 +18,10 @@ public class ResourceManager {
 
     public void setGold(int amount) {
         this.gold = amount;
+    }
+
+    public void setExp(int amount) {
+        this.experience = amount;
     }
 
     public void subtractGold(int amount) {
@@ -28,10 +34,20 @@ public class ResourceManager {
     }
 
     public void addExp(int amount) {
-        this.experience += amount;
+        this.experience += amount * expMulti;
     }
 
     public int getExp() {
         return experience;
+    }
+
+    public void setExpMultiplier(float multiplier) {
+        if (multiplier > this.expMulti) {
+            this.expMulti = multiplier;
+        }
+    }
+
+    public float getExpMulti() {
+        return expMulti;
     }
 }

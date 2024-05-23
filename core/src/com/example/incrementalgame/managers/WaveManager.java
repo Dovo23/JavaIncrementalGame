@@ -1,19 +1,21 @@
 package com.example.incrementalgame.managers;
 
-import com.badlogic.gdx.utils.Array;
-import com.example.incrementalgame.entities.Enemy;
-import com.example.incrementalgame.entities.Player;
+
 
 public class WaveManager {
     private int waveNumber;
-    private float healthMultiplier;
-    private float damageMultiplier;
+    private int highestWave;
+    private float healthMulti;
+    private float damageMulti;
+    private float expMulti;
     private EntityManager entityManager;
 
     public WaveManager() {
         this.waveNumber = 1;
-        this.healthMultiplier = 1.0f;
-        this.damageMultiplier = 1.0f;
+        this.highestWave = 1;
+        this.healthMulti = 1.0f;
+        this.damageMulti = 1.0f;
+        this.expMulti = 1.0f;
     }
 
     public void initialize(EntityManager entityManager) {
@@ -22,24 +24,34 @@ public class WaveManager {
 
     public void startNextWave() {
         waveNumber++;
-        healthMultiplier = 1.0f + 0.1f * waveNumber;
-        damageMultiplier = 1.0f + 0.1f * waveNumber;
+        if (highestWave < waveNumber) {
+            highestWave = waveNumber;
+        }
+        updateMultipliers();
+        entityManager.spawnEnemies(healthMulti, damageMulti, expMulti);
+    }
+    
 
-        spawnEnemies();
+    private void updateMultipliers() { // in case I want to add more methods like decreasing wave
+        healthMulti = 1.0f + 0.1f * waveNumber;
+        damageMulti = 1.0f + 0.1f * waveNumber;
+        expMulti = 1.0f + 0.1f * waveNumber;
     }
 
-    private void spawnEnemies() {
-        Array<Enemy> enemies = entityManager.getEnemies();
-        enemies.clear();
-
-        Enemy enemy1 = new Enemy(700, 20, 64, 64, (int)(100 * healthMultiplier), (int)(5 * damageMultiplier));
-        Enemy enemy2 = new Enemy(600, 20, 64, 64, (int)(120 * healthMultiplier), (int)(7 * damageMultiplier));
-
-        entityManager.addEnemy(enemy1);
-        entityManager.addEnemy(enemy2);
-    }
 
     public int getWaveNumber() {
         return waveNumber;
+    }
+
+    public float getCurrentWaveMultiplier() {
+        return 1 + (highestWave * 0.01f); // Increase multiplier by 1% each wave
+    }
+
+    public void setWave(int wave) {
+        this.waveNumber = wave;
+    }
+
+    public float getExpMulti() {
+        return expMulti;
     }
 }

@@ -9,7 +9,6 @@ public class Building {
     private float totalMulti = 1.0f; 
     private String name;
 
-   
 
     public Building(String name, int baseCost, float baseIncomePerSecond) {
         this.name = name;

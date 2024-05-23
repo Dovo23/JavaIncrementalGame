@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.example.incrementalgame.assets.Assets;
 import com.example.incrementalgame.config.GameConfig;
-import com.example.incrementalgame.entities.GameButton;
 import com.example.incrementalgame.entities.Player;
 import com.example.incrementalgame.managers.BuildingManager;
 import com.example.incrementalgame.managers.EntityManager;
@@ -45,10 +44,12 @@ public class IncrementalGame extends ApplicationAdapter {
 
        waveManager = new WaveManager();
        entityManager = new EntityManager(assets, resourceManager, waveManager);
-       waveManager.initialize(entityManager);
-
        buildingManager = new BuildingManager(assets, resourceManager);
-       prestigeManager = new PrestigeManager(assets, resourceManager, buildingManager);
+       prestigeManager = new PrestigeManager(assets, resourceManager, buildingManager, entityManager, waveManager);
+
+       entityManager.initialize(prestigeManager);
+       waveManager.initialize(entityManager);
+       //prestigeManager.initialize(entityManager);
 
        prestigeManager.create();
        waveManager.startNextWave();

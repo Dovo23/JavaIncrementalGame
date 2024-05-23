@@ -12,6 +12,7 @@ public class Player extends Entity {
     private int initialDamage;
     private int baseHealth;
     private int baseDamage;
+    private int age;
     private PlayerLevel playerLevel;
     // private ResourceManager resourceManager;
     
@@ -23,6 +24,7 @@ public class Player extends Entity {
         this.initialDamage = damage;
         this.baseHealth = health;
         this.baseDamage = damage;
+        this.age = 90;
         this.playerLevel = new PlayerLevel(resourceManager);
 
     }
@@ -31,6 +33,7 @@ public class Player extends Entity {
     public void updateStats(float multiplier) {
         this.health = (int) (baseHealth * multiplier);
         this.damage = (int) (baseDamage * multiplier);
+        this.currentHealth = health;  
     }
 
     public void increaseBaseStats(int BaseDamage, int BaseHealth) {
@@ -53,6 +56,8 @@ public class Player extends Entity {
     protected void onDefeated() {
         super.onDefeated();
         isAlive = false;
+        resetPlayerPos();
+        this.currentHealth = health;
         //death animation
         System.out.println("Player defeated!");
     }
@@ -63,8 +68,7 @@ public class Player extends Entity {
 
     public void resetPlayer() {
         if (isAlive == false) {
-            health = initialHealth; // Reset health
-            damage = initialDamage; // Reset damage both are more for the prestige and not death
+            this.currentHealth = health;
             resetPlayerPos();
             isAlive = true; // Revive player
             System.out.println("Player got reset!");
@@ -94,6 +98,29 @@ public class Player extends Entity {
 
     public int getNextLevelExp() {
         return playerLevel.calculateNextLevelExp();
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void addAge() {
+        age++;
+    }
+
+    public void resetAge() {
+        age = 15;
+    }
+
+    public void resetStats() {
+        this.baseHealth = initialHealth;
+        this.baseDamage = initialDamage;
+        this.health = baseHealth;
+        this.damage = baseDamage;
+        this.currentHealth = health; 
+        playerLevel.resetLevel();
+        playerLevel.resetTitle();
+        playerLevel.resetExp();
     }
 
 
