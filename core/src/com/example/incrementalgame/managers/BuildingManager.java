@@ -1,7 +1,5 @@
 package com.example.incrementalgame.managers;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.example.incrementalgame.assets.Assets;
 import com.example.incrementalgame.config.GameConfig;
@@ -39,7 +37,7 @@ public class BuildingManager {
         updateButtonLabels();
     }
     
-     public void buyBuilding(String buildingName) {
+    public void buyBuilding(String buildingName) {
         Building building = getBuildingByName(buildingName);
         if (building != null && resourceManager.getGold() >= building.getCost()) {
             resourceManager.subtractGold(building.getCost());
@@ -65,27 +63,11 @@ public class BuildingManager {
              buyBuilding("Factory");
         }
     }
-
-   
      
     private void updateButtonLabels() {
         buyMinerButton.setText("Buy Miner " + getBuildingByName("Miner").getIncomePerSecondBase() + " gold/s");
         buyBakeryButton.setText("Buy Bakery " + getBuildingByName("Bakery").getIncomePerSecondBase() + " gold/s");
         buyFactoryButton.setText("Buy Factory " + getBuildingByName("Factory").getIncomePerSecondBase() + " gold/s");
-    }
-
-    public void render(SpriteBatch batch) {
-        BitmapFont font = assets.font;
-
-        // Render buttons
-        buyMinerButton.draw(batch, assets.font, assets.buttonTexture);
-        buyBakeryButton.draw(batch, assets.font, assets.buttonTexture);
-        buyFactoryButton.draw(batch, assets.font, assets.buttonTexture);
-
-        // Render building costs next to their respective buttons
-        font.draw(batch, "Miner Cost: " + getBuildingByName("Miner").getCost(), buyMinerButton.getBounds().x, buyMinerButton.getBounds().y + buyMinerButton.getBounds().height + 20);
-        font.draw(batch, "Bakery Cost: " + getBuildingByName("Bakery").getCost(), buyBakeryButton.getBounds().x, buyBakeryButton.getBounds().y + buyBakeryButton.getBounds().height + 20);
-        font.draw(batch, "Factory Cost: " + getBuildingByName("Factory").getCost(), buyFactoryButton.getBounds().x,buyFactoryButton.getBounds().y + buyFactoryButton.getBounds().height + 20);
     }
 
     public int getTotalGoldPerSecond() {
@@ -95,5 +77,17 @@ public class BuildingManager {
         }
         return total;
     }
-    
+
+    // Getter methods for buttons
+    public GameButton getBuyMinerButton() {
+        return buyMinerButton;
+    }
+
+    public GameButton getBuyBakeryButton() {
+        return buyBakeryButton;
+    }
+
+    public GameButton getBuyFactoryButton() {
+        return buyFactoryButton;
+    }
 }

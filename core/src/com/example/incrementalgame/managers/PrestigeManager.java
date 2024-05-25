@@ -1,6 +1,5 @@
 package com.example.incrementalgame.managers;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.example.incrementalgame.assets.Assets;
 import com.example.incrementalgame.config.GameConfig;
 import com.example.incrementalgame.entities.GameButton;
@@ -27,14 +26,7 @@ public class PrestigeManager {
     }
 
     public void create() {
-         prestigeButton = new GameButton(650, 150, GameConfig.BUTTON_WIDTH, GameConfig.BUTTON_HEIGHT, "Prestige");
-    }
-
-    public void render(SpriteBatch batch) {
-        //prestige button appears if requirement met
-        if (resourceManager.getGold() >= nextPrestigeRequirement) {
-            prestigeButton.draw(batch, assets.font, assets.buttonTexture);
-        }
+        prestigeButton = new GameButton(650, 150, GameConfig.BUTTON_WIDTH, GameConfig.BUTTON_HEIGHT, "Prestige");
     }
 
     public void initialize(EntityManager entityManager) {
@@ -45,6 +37,14 @@ public class PrestigeManager {
         if (prestigeButton.getBounds().contains(x, y) && resourceManager.getGold() >= nextPrestigeRequirement) {
             performPrestige();
         }
+    }
+
+    public boolean isPrestigeAvailable() {
+        return resourceManager.getGold() >= nextPrestigeRequirement;
+    }
+
+    public GameButton getPrestigeButton() {
+        return prestigeButton;
     }
     
     public void performPrestige() {
@@ -66,11 +66,8 @@ public class PrestigeManager {
     public int getPrestigeLevel() {
         return prestigeLevel;
     }
- 
+
     public double getNextPrestigeRequirement() {
         return nextPrestigeRequirement;
     }
-
-    
-
 }

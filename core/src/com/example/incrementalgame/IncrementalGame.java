@@ -15,6 +15,10 @@ import com.example.incrementalgame.managers.EntityManager;
 import com.example.incrementalgame.managers.PrestigeManager;
 import com.example.incrementalgame.managers.ResourceManager;
 import com.example.incrementalgame.managers.WaveManager;
+import com.example.view.BuildingView;
+import com.example.view.EntityView;
+import com.example.view.HudView;
+import com.example.view.PrestigeView;
 
 public class IncrementalGame extends ApplicationAdapter {
     private Assets assets;
@@ -27,6 +31,10 @@ public class IncrementalGame extends ApplicationAdapter {
     private BuildingManager buildingManager;
     private PrestigeManager prestigeManager;
     private WaveManager waveManager;
+    private EntityView entityView;
+    private BuildingView buildingView;
+    private PrestigeView prestigeView;
+    private HudView hudView;
     private Player player;
     
     public static  int gold = 4000;
@@ -41,7 +49,6 @@ public class IncrementalGame extends ApplicationAdapter {
        viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
 
        resourceManager = new ResourceManager(4000);
-
        waveManager = new WaveManager();
        entityManager = new EntityManager(assets, resourceManager, waveManager);
        buildingManager = new BuildingManager(assets, resourceManager);
@@ -53,6 +60,11 @@ public class IncrementalGame extends ApplicationAdapter {
 
        prestigeManager.create();
        waveManager.startNextWave();
+
+       entityView = new EntityView(assets);
+       buildingView = new BuildingView(assets);
+       prestigeView = new PrestigeView(assets);
+       hudView = new HudView(assets, resourceManager, buildingManager, prestigeManager, waveManager);
     }
 
 
@@ -61,8 +73,6 @@ public class IncrementalGame extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
-        // checkResourceManager();
-        Checks();
         handleInput();
 
         viewport.apply();
@@ -71,13 +81,15 @@ public class IncrementalGame extends ApplicationAdapter {
         batch.begin();
         batch.draw(assets.groundTexture, 0, 0, GameConfig.WORLD_WIDTH, 50);
 
-        entityManager.render(batch);
+        // entityManager.render(batch);
         entityManager.update(Gdx.graphics.getDeltaTime());
-
-        buildingManager.render(batch);
         buildingManager.update(Gdx.graphics.getDeltaTime());
 
-        prestigeManager.render(batch);
+        entityView.render(batch, entityManager, resourceManager);
+        buildingView.render(batch, buildingManager);
+        prestigeView.render(batch, prestigeManager);
+        hudView.render(batch);
+
 
         assets.font.draw(batch, "Gold: " + resourceManager.getGold(), 10, GameConfig.WORLD_HEIGHT - 20);
         assets.font.draw(batch, buildingManager.getTotalGoldPerSecond() + " gold/s", 10, GameConfig.WORLD_HEIGHT - 40);
@@ -85,8 +97,8 @@ public class IncrementalGame extends ApplicationAdapter {
         assets.font.draw(batch, "Required gold till next prestige: " + (int) prestigeManager.getNextPrestigeRequirement(), 10, GameConfig.WORLD_HEIGHT - 80);
         assets.font.draw(batch, "Wave: " + (int) waveManager.getWaveNumber(), 10, GameConfig.WORLD_HEIGHT - 100);
         
-       //maybe will be moved somewhere else later
-        
+     
+
 
         batch.end();
 

@@ -1,5 +1,8 @@
 package com.example.incrementalgame.entities;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.example.incrementalgame.Player.PlayerLevel;
 import com.example.incrementalgame.managers.ResourceManager;
 
@@ -14,9 +17,9 @@ public class Player extends Entity {
     private int baseDamage;
     private int age;
     private PlayerLevel playerLevel;
-    // private ResourceManager resourceManager;
-    
-    public Player(float x, float y, float width, float height, int health, int damage, ResourceManager resourceManager) {
+    private Texture playerTexture;
+
+    public Player(float x, float y, float width, float height, int health, int damage, ResourceManager resourceManager, Texture playerTexture) {
         super(x, y, width, height, health, damage);
         this.initialX = x;
         this.initialY = y;
@@ -26,9 +29,12 @@ public class Player extends Entity {
         this.baseDamage = damage;
         this.age = 90;
         this.playerLevel = new PlayerLevel(resourceManager);
-
+        this.playerTexture = playerTexture;
     }
 
+    // public void update(float deltaTime) {
+    //     // Keine Animation, also keine Notwendigkeit für stateTime
+    // }
 
     public void updateStats(float multiplier) {
         this.health = (int) (baseHealth * multiplier);
@@ -53,12 +59,15 @@ public class Player extends Entity {
         bounds.x += speed;
     }
 
+    public Texture getPlayerTexture() {
+        return playerTexture;
+    }
+
     protected void onDefeated() {
         super.onDefeated();
         isAlive = false;
         resetPlayerPos();
         this.currentHealth = health;
-        //death animation
         System.out.println("Player defeated!");
     }
 
@@ -67,17 +76,17 @@ public class Player extends Entity {
     }
 
     public void resetPlayer() {
-        if (isAlive == false) {
+        if (!isAlive) {
             this.currentHealth = health;
             resetPlayerPos();
-            isAlive = true; // Revive player
+            isAlive = true;
             System.out.println("Player got reset!");
         }
     }
 
     public void resetPlayerPos() {
-        bounds.x = initialX; // Reset x position
-        bounds.y = initialY; // Reset y position
+        bounds.x = initialX;
+        bounds.y = initialY;
     }
 
     public String getTitle() {
@@ -87,14 +96,6 @@ public class Player extends Entity {
     public int getLevel() {
         return playerLevel.getLevel();
     }
-
-    // public void setResourceManager(ResourceManager resourceManager) {
-    //     this.resourceManager = resourceManager;
-    // }
-
-    // public void forcedLevelUp() {
-    //     playerLevel.levelUp();
-    // }
 
     public int getNextLevelExp() {
         return playerLevel.calculateNextLevelExp();
@@ -122,6 +123,4 @@ public class Player extends Entity {
         playerLevel.resetTitle();
         playerLevel.resetExp();
     }
-
-
 }
