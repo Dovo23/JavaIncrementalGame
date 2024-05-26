@@ -5,7 +5,7 @@ import com.example.incrementalgame.entities.Player;
 public class AgeManager {
     private float ageTicker = 0;
     private Player player;
-    private float second = 1.0f; // One second interval
+    private float second = 1.0f; // One second interval for demonstration purposes but can be adjusted
 
     public AgeManager(Player player) {
         this.player = player;
@@ -15,7 +15,7 @@ public class AgeManager {
         ageTicker += delta;
         if (ageTicker >= second) {
             player.addAge();
-            ageTicker -= second; // Reset accumulator
+            ageTicker -= second; // Reset ticker
         }
     }
 

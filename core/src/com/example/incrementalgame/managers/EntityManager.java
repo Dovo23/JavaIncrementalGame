@@ -27,6 +27,7 @@ public class EntityManager {
         waveManager.initialize(this);
     }
 
+    //method to spawn enemies with different stats based on the wave multiplier
     public void spawnEnemies(float healthMulti, float damageMulti, float expMulti) {
         Enemy enemy1 = new Enemy(700, 20, 64, 64, (int) (10 * healthMulti), (int) (1 * damageMulti));
         enemy1.setResourceManager(resourceManager);
@@ -41,12 +42,15 @@ public class EntityManager {
         System.out.println("Enemy2HP:" + enemy2.getHealth() + " Enemy2Damage:" + enemy2.getDamage());
     }
 
+    //method to add an enemy to the array of enemies
     public void addEnemy(Enemy enemy) {
         enemy.setResourceManager(resourceManager);
         enemies.add(enemy);
     }
 
+    //methods to update game state
     public void update(float deltaTime) {
+        //ability to add exp for testing purposes
         if (Gdx.input.isKeyPressed(Input.Keys.L)) {
             resourceManager.addExp(500);
         }
@@ -56,6 +60,7 @@ public class EntityManager {
         movement();
         checkCollisions();
 
+        //removing defeated enemies from the array
         for (int i = enemies.size - 1; i >= 0; i--) {
             if (enemies.get(i).isDefeated()) {
                 enemies.removeIndex(i);
@@ -63,18 +68,21 @@ public class EntityManager {
         }
         if (player.isDefeated()) {
             player.resetPlayer();
-            enemies.clear();
+            // enemies.clear(); breaks the game
         }
+        //starting the next wave if all enemies are defeated
         if (enemies.size == 0) {
             player.resetPlayerPos();
             waveManager.startNextWave();
         }
+        //prestige once the player reaches 100 years old
         if (player.getAge() >= 100) {
             prestigeManager.performPrestige();
             System.out.println("Current expMulti: " + resourceManager.getExpMulti());
         }
     }
 
+    //method to check for collisions between player and enemies with LibGDX 
     private void checkCollisions() {
         if (player != null) {
             for (Enemy enemy : enemies) {
@@ -106,6 +114,7 @@ public class EntityManager {
         return enemies;
     }
 
+     //setting reference to the prestige manager
     public void initialize(PrestigeManager prestigeManager) {
         this.prestigeManager = prestigeManager;
     }

@@ -18,11 +18,13 @@ public class Building {
         this.level = 0;
     }
 
+    // Reset the building level and increase the total multiplier
     public void resetWithMultiplier() {
         level = 0;
-        totalMulti *= 1.25; // Increase multiplier by 25% each prestige
+        totalMulti *= 1.25; //increase multiplier by 25% each prestige
     }
 
+    // Get the cost of the upgrade based on the level
     public int getCost() {
         return (int) (baseCost * Math.pow(1.15, level));
     }
@@ -35,6 +37,7 @@ public class Building {
         return baseIncomePerSecond * totalMulti;
     }
 
+    //get the building name, required for the building manager
     public Object getName() {
         return name;
     }

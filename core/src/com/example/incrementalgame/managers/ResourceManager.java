@@ -41,6 +41,7 @@ public class ResourceManager {
         return experience;
     }
 
+    //set the exp multi and check if it is higher than the current multiplier
     public void setExpMultiplier(float multiplier) {
         if (multiplier > this.expMulti) {
             this.expMulti = multiplier;

@@ -15,7 +15,8 @@ public class PrestigeManager {
     private int prestigeLevel = 0;
     private double nextPrestigeRequirement = 5000;
 
-    public PrestigeManager(Assets assets, ResourceManager resourceManager, BuildingManager buildingManager, EntityManager entityManager, WaveManager waveManager) {
+    public PrestigeManager(Assets assets, ResourceManager resourceManager, BuildingManager buildingManager,
+            EntityManager entityManager, WaveManager waveManager) {
         this.assets = assets;
         this.resourceManager = resourceManager;
         this.buildingManager = buildingManager;
@@ -25,17 +26,20 @@ public class PrestigeManager {
         entityManager.initialize(this);
     }
 
+    //method to create the prestige button
     public void create() {
         prestigeButton = new GameButton(650, 150, GameConfig.BUTTON_WIDTH, GameConfig.BUTTON_HEIGHT, "Prestige");
     }
-
-    public void initialize(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
     
+     //setting reference to the entity manager
+     public void initialize(EntityManager entityManager) {
+         this.entityManager = entityManager;
+     }
+    
+    //method to handle the input of the prestige button
     public void handleButtonInput(float x, float y) {
         if (prestigeButton.getBounds().contains(x, y) && resourceManager.getGold() >= nextPrestigeRequirement) {
-            performPrestige();
+            prestigeBuildings();
         }
     }
 
@@ -47,11 +51,12 @@ public class PrestigeManager {
         return prestigeButton;
     }
     
+    //method to perform the prestige, resetting attributes and increasing multipliers
     public void performPrestige() {
         resourceManager.setGold(100);
-        buildingManager.getBuildingByName("Miner").resetWithMultiplier();
-        buildingManager.getBuildingByName("Bakery").resetWithMultiplier();
-        buildingManager.getBuildingByName("Factory").resetWithMultiplier();
+        // buildingManager.getBuildingByName("Miner").resetWithMultiplier();
+        // buildingManager.getBuildingByName("Bakery").resetWithMultiplier();
+        // buildingManager.getBuildingByName("Factory").resetWithMultiplier();
 
         entityManager.getPlayer().resetAge();
         entityManager.getPlayer().resetStats();
@@ -60,7 +65,20 @@ public class PrestigeManager {
         resourceManager.setExpMultiplier(waveManager.getCurrentWaveMultiplier());
 
         prestigeLevel++;
-        nextPrestigeRequirement *= 2; 
+        nextPrestigeRequirement *= 2;
+    }
+    
+    public void prestigeBuildings() {
+        // Reset building levels and increase production multiplier
+        resourceManager.setGold(100);
+        buildingManager.getBuildingByName("Wheat Field").resetWithMultiplier();
+        buildingManager.getBuildingByName("Farm").resetWithMultiplier();
+        buildingManager.getBuildingByName("Factory").resetWithMultiplier();
+
+        System.out.println("Buildings have been prestiged!");
+
+        prestigeLevel++;
+        nextPrestigeRequirement *= 2;
     }
 
     public int getPrestigeLevel() {

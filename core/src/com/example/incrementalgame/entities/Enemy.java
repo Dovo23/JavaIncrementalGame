@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.example.incrementalgame.interfaces.Loot;
 import com.example.incrementalgame.loot.GoldLoot;
-import com.example.incrementalgame.managers.PrestigeManager;
 import com.example.incrementalgame.managers.ResourceManager;
 import com.example.incrementalgame.managers.WaveManager;
 import com.example.incrementalgame.loot.Exp;
@@ -12,26 +11,25 @@ import com.example.incrementalgame.loot.Exp;
 public class Enemy extends Entity {
     private ResourceManager resourceManager;
     private WaveManager waveManager;
+
     public Enemy(float x, float y, float width, float height, int health, int damage) {
         super(x, y, width, height, health, damage);
     }
 
+    //method to define dropped loot
     public List<Loot> dropLoot() {
         List<Loot> drops = new ArrayList<>();
 
         float expMultiplier = waveManager.getExpMulti();
-        drops.add(new GoldLoot(5000));
-        drops.add(new Exp((int) (20 * expMultiplier)));
+        drops.add(new GoldLoot(5000)); //currently hardcoded
+        drops.add(new Exp((int) (20 * expMultiplier))); 
         return drops;
     }
     
-    public void setResourceManager(ResourceManager resourceManager) {
-        this.resourceManager = resourceManager;
-    }
-    
     protected void onDefeated() {
-        super.onDefeated();
+        super.onDefeated(); //doesnt do anything yet
         //death animation, loot drop, etc
+        //applying loot to resource manager, if check was used since I had nullpointer exceptions
         if (resourceManager != null) {
             List<Loot> loots = dropLoot();
             for (Loot loot : loots) {
@@ -44,6 +42,12 @@ public class Enemy extends Entity {
 
     }
     
+     //setting reference to the resource manager
+     public void setResourceManager(ResourceManager resourceManager) {
+         this.resourceManager = resourceManager;
+     }
+    
+    //setting reference to the wave manager
     public void setWaveManager(WaveManager waveManager) {
         this.waveManager = waveManager;
     }

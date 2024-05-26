@@ -19,7 +19,8 @@ public class Player extends Entity {
     private PlayerLevel playerLevel;
     private Texture playerTexture;
 
-    public Player(float x, float y, float width, float height, int health, int damage, ResourceManager resourceManager, Texture playerTexture) {
+    public Player(float x, float y, float width, float height, int health, int damage, ResourceManager resourceManager,
+            Texture playerTexture) {
         super(x, y, width, height, health, damage);
         this.initialX = x;
         this.initialY = y;
@@ -33,24 +34,27 @@ public class Player extends Entity {
     }
 
     // public void update(float deltaTime) {
-    //     // Keine Animation, also keine Notwendigkeit für stateTime
+    //     //not necessary atm but will be later
     // }
-
+    //method to update player stats based on multiplier
     public void updateStats(float multiplier) {
         this.health = (int) (baseHealth * multiplier);
         this.damage = (int) (baseDamage * multiplier);
-        this.currentHealth = health;  
+        this.currentHealth = health;
     }
 
+    //method to increase the base stats of the player through the title system
     public void increaseBaseStats(int BaseDamage, int BaseHealth) {
         this.baseHealth = BaseHealth;
         this.baseDamage = BaseDamage;
     }
 
+    //was used to test stuff
     public void checkExpThreshold() {
         playerLevel.checkExpThreshold(this);
     }
 
+    //movement methods
     public void moveLeft(float speed) {
         bounds.x -= speed;
     }
@@ -59,22 +63,17 @@ public class Player extends Entity {
         bounds.x += speed;
     }
 
-    public Texture getPlayerTexture() {
-        return playerTexture;
-    }
-
+    //method to handle player defeat
     protected void onDefeated() {
-        super.onDefeated();
-        isAlive = false;
-        resetPlayerPos();
-        this.currentHealth = health;
+        super.onDefeated(); //will be used for future implementations, currently has no use
+        isAlive = false; //setting player status to dead
         System.out.println("Player defeated!");
     }
 
     public boolean isAlive() {
         return isAlive;
     }
-
+    //method to reset the player
     public void resetPlayer() {
         if (!isAlive) {
             this.currentHealth = health;
@@ -109,6 +108,7 @@ public class Player extends Entity {
         age++;
     }
 
+    //reset methods used for prestige
     public void resetAge() {
         age = 15;
     }
@@ -118,7 +118,7 @@ public class Player extends Entity {
         this.baseDamage = initialDamage;
         this.health = baseHealth;
         this.damage = baseDamage;
-        this.currentHealth = health; 
+        this.currentHealth = health;
         playerLevel.resetLevel();
         playerLevel.resetTitle();
         playerLevel.resetExp();

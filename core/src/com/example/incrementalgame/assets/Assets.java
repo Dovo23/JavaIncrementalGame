@@ -13,26 +13,15 @@ public class Assets {
 
     public Assets() {
         try {
+            //using LibGdX to load assets, assets are stored in the assets folder
             groundTexture = new Texture(Gdx.files.internal("greenSquare.png"));
             enemyTexture = new Texture(Gdx.files.internal("redSquare.png"));
             buttonTexture = new Texture(Gdx.files.internal("button.png"));
             playerTexture = new Texture(Gdx.files.internal("whiteSquare.png"));
             font = new BitmapFont();
+            //animations arent ready yet but will be added later
 
-            // Load and initialize the run animation
-            // playerRunTexture = new Texture(Gdx.files.internal("PlayerRun.png"));
-            // TextureRegion[][] tmp = TextureRegion.split(playerRunTexture, 27, 45);
-            // if (tmp != null && tmp.length > 0 && tmp[0].length == 8) {
-            //     TextureRegion[] runFrames = new TextureRegion[8];
-            //     int index = 0;
-            //     for (int i = 0; i < 8; i++) {
-            //         runFrames[index++] = tmp[0][i];
-            //     }
-            //     playerRunAnimation = new Animation<>(0.1f, runFrames);
-            //     Gdx.app.log("Asset Loading", "Animation frames successfully loaded.");
-            // } else {
-            //     Gdx.app.log("Asset Loading", "Failed to split the sprite sheet correctly or incorrect number of frames");
-            // }
+        //try catch for error handeling
         } catch (Exception e) {
             Gdx.app.log("Asset Loading", "Failed to load assets", e);
         }

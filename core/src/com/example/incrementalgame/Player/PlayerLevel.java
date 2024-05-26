@@ -10,38 +10,43 @@ public class PlayerLevel {
     private ResourceManager resourceManager;
 
     public PlayerLevel(ResourceManager resourceManager) {
-       this.resourceManager = resourceManager;
+        this.resourceManager = resourceManager;
         this.level = 1;
-        this.nextLevelExp = 20;  
-        this.title = "Beggar";  
+        this.nextLevelExp = 20;
+        this.title = "Beggar";
     }
 
+    //method to check if exp has reached the threshold for the next level
     public void checkExpThreshold(Player player) {
         //System.out.println("Current EXP: " + resourceManager.getExp() + ", Required for next level: " + nextLevelExp);
-       while (resourceManager.getExp() >= nextLevelExp) {
-           levelUp(player);
-           ///System.out.println("Level up! Current level: " + level);
-           }
+        while (resourceManager.getExp() >= nextLevelExp) {
+            levelUp(player);
+            ///System.out.println("Level up! Current level: " + level);
+        }
     }
 
+   //method to level up the player
    private void levelUp(Player player) {
         level++;
-        resourceManager.addExp(-nextLevelExp);
-        nextLevelExp = calculateNextLevelExp();
-        updateTitle(player);
+        resourceManager.addExp(-nextLevelExp); //removing the exp required for the next level
+        nextLevelExp = calculateNextLevelExp(); //calculating the next level exp
+        updateTitle(player); //setting the title of the player based on the level
+        //calculating the multiplier for the player stats
         float multiplier = 1.01f;
         for (int i = 1; i < level; i++) {
-           multiplier *= 1.01f;
+            multiplier *= 1.01f;
         }
+        //updating the player stats based on the calculated multiplier
         player.updateStats(multiplier);
         //System.out.println("Leveled Up! New Level: " + level + ", Next Level EXP: " + nextLevelExp);
 }
     
 
-    public int calculateNextLevelExp() {
-        return (int) (nextLevelExp * 1.2); 
-    }
+public int calculateNextLevelExp() {
+    return (int) (nextLevelExp * 1.2); //increases the exp required for the next level by 20%
+}
 
+    //method to update the title of the player based on the level and increases the base stats of the player
     private void updateTitle(Player player) {
         switch (level) {
             case 5:
@@ -79,14 +84,20 @@ public class PlayerLevel {
         return level;
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public String getTitle() {
         return title;
     }
 
+    //just for testing purposes
     public void outPutNextExp() {
         System.out.println("Next level exp: " + nextLevelExp);
     }
 
+    //reset methods for the prestige system
     public void resetLevel() {
        this.level = 1;
     }

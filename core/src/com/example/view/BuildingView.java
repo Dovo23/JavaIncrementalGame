@@ -20,15 +20,22 @@ public class BuildingView {
         GameButton buyMinerButton = buildingManager.getBuyMinerButton();
         GameButton buyBakeryButton = buildingManager.getBuyBakeryButton();
         GameButton buyFactoryButton = buildingManager.getBuyFactoryButton();
+        GameButton buyKingdomButton = buildingManager.getBuyKingdomButton();
 
-        // Render buttons
+        //render buttons
         buyMinerButton.draw(batch, assets.font, assets.buttonTexture);
         buyBakeryButton.draw(batch, assets.font, assets.buttonTexture);
         buyFactoryButton.draw(batch, assets.font, assets.buttonTexture);
 
-        // Render building costs next to their respective buttons
-        font.draw(batch, "Miner Cost: " + buildingManager.getBuildingByName("Miner").getCost(), buyMinerButton.getBounds().x, buyMinerButton.getBounds().y + buyMinerButton.getBounds().height + 20);
-        font.draw(batch, "Bakery Cost: " + buildingManager.getBuildingByName("Bakery").getCost(), buyBakeryButton.getBounds().x, buyBakeryButton.getBounds().y + buyBakeryButton.getBounds().height + 20);
+        //render building costs next to their respective buttons
+        font.draw(batch, "Wheat Field Cost: " + buildingManager.getBuildingByName("Wheat Field").getCost(), buyMinerButton.getBounds().x, buyMinerButton.getBounds().y + buyMinerButton.getBounds().height + 20);
+        font.draw(batch, "Farm Cost: " + buildingManager.getBuildingByName("Farm").getCost(), buyBakeryButton.getBounds().x, buyBakeryButton.getBounds().y + buyBakeryButton.getBounds().height + 20);
         font.draw(batch, "Factory Cost: " + buildingManager.getBuildingByName("Factory").getCost(), buyFactoryButton.getBounds().x, buyFactoryButton.getBounds().y + buyFactoryButton.getBounds().height + 20);
+        
+        //render the Kingdom button if it's purchasable
+        if (buildingManager.getBuildingByName("Kingdom") != null && buildingManager.isKingdomPurchaseable()) {
+            buyKingdomButton.draw(batch, assets.font, assets.buttonTexture);
+            font.draw(batch, "Kingdom Cost: " + buildingManager.getBuildingByName("Kingdom").getCost(), buyKingdomButton.getBounds().x, buyKingdomButton.getBounds().y + buyKingdomButton.getBounds().height + 20);
+        }
     }
 }

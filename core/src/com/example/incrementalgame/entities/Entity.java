@@ -17,6 +17,7 @@ public class Entity {
         this.currentDamage = damage;
     }
 
+    //method to apply damage to entity
     public void takeDamage(int damage) {
         this.currentHealth -= damage;
         if (this.currentHealth < 0) {
