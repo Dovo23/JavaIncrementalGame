@@ -21,7 +21,7 @@ public class EntityView {
         }
         Player player = entityManager.getPlayer();
         if (player != null) {
-            batch.draw(assets.playerTexture, player.getBounds().x, player.getBounds().y, player.getBounds().width, player.getBounds().height);
+            batch.draw(player.getFrame(), player.getBounds().x, player.getBounds().y , player.getBounds().width, player.getBounds().height);
             assets.font.draw(batch, "Level: " + player.getLevel(), 10, GameConfig.WORLD_HEIGHT - 140);
             assets.font.draw(batch, "Exp: " + (int) resourceManager.getExp() + "/" + (int) player.getNextLevelExp(), 10, GameConfig.WORLD_HEIGHT - 160);
             assets.font.draw(batch, "Title: " + player.getTitle(), 10, GameConfig.WORLD_HEIGHT - 180);

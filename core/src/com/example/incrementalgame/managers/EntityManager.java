@@ -22,24 +22,24 @@ public class EntityManager {
         this.resourceManager = resourceManager;
         this.waveManager = waveManager;
         enemies = new Array<>();
-        player = new Player(350, 20, 64, 64, 50, 3, resourceManager, assets.playerTexture);
+        player = new Player(-50, -30, 256, 256, 50, 3, resourceManager, assets.playerTexture, assets.walkAnimation);
         ageManager = new AgeManager(player);
         waveManager.initialize(this);
     }
 
     //method to spawn enemies with different stats based on the wave multiplier
     public void spawnEnemies(float healthMulti, float damageMulti, float expMulti) {
-        Enemy enemy1 = new Enemy(700, 20, 64, 64, (int) (10 * healthMulti), (int) (1 * damageMulti));
+        Enemy enemy1 = new Enemy(700, 60, 64, 64, (int) (10 * healthMulti), (int) (1 * damageMulti));
         enemy1.setResourceManager(resourceManager);
         enemy1.setWaveManager(waveManager);
         enemies.add(enemy1);
         System.out.println("Enemy1HP:" + enemy1.getHealth() + " Enemy1Damage:" + enemy1.getDamage());
 
-        Enemy enemy2 = new Enemy(600, 20, 64, 64, (int) (15 * healthMulti), (int) (2 * damageMulti));
-        enemy2.setResourceManager(resourceManager);
-        enemy2.setWaveManager(waveManager);
-        enemies.add(enemy2);
-        System.out.println("Enemy2HP:" + enemy2.getHealth() + " Enemy2Damage:" + enemy2.getDamage());
+        // Enemy enemy2 = new Enemy(600, 60, 64, 64, (int) (15 * healthMulti), (int) (2 * damageMulti));
+        // enemy2.setResourceManager(resourceManager);
+        // enemy2.setWaveManager(waveManager);
+        // enemies.add(enemy2);
+        // System.out.println("Enemy2HP:" + enemy2.getHealth() + " Enemy2Damage:" + enemy2.getDamage());
     }
 
     //method to add an enemy to the array of enemies
@@ -56,7 +56,7 @@ public class EntityManager {
         }
         player.checkExpThreshold();
         ageManager.update(deltaTime);
-        // player.update(deltaTime);
+        player.update(deltaTime);
         movement();
         checkCollisions();
 

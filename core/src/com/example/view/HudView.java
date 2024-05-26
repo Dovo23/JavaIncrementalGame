@@ -15,7 +15,8 @@ public class HudView {
     private PrestigeManager prestigeManager;
     private WaveManager waveManager;
 
-    public HudView(Assets assets, ResourceManager resourceManager, BuildingManager buildingManager, PrestigeManager prestigeManager, WaveManager waveManager) {
+    public HudView(Assets assets, ResourceManager resourceManager, BuildingManager buildingManager,
+            PrestigeManager prestigeManager, WaveManager waveManager) {
         this.assets = assets;
         this.resourceManager = resourceManager;
         this.buildingManager = buildingManager;
@@ -23,6 +24,7 @@ public class HudView {
         this.waveManager = waveManager;
     }
 
+    //renders the HUD
     public void render(SpriteBatch batch) {
         assets.font.draw(batch, "Gold: " + resourceManager.getGold(), 10, GameConfig.WORLD_HEIGHT - 20);
         assets.font.draw(batch, buildingManager.getTotalGoldPerSecond() + " gold/s", 10, GameConfig.WORLD_HEIGHT - 40);

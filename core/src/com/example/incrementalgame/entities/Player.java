@@ -18,9 +18,11 @@ public class Player extends Entity {
     private int age;
     private PlayerLevel playerLevel;
     private Texture playerTexture;
+    private Animation<TextureRegion> walkAnimation;
+    private float stateTime;
 
     public Player(float x, float y, float width, float height, int health, int damage, ResourceManager resourceManager,
-            Texture playerTexture) {
+            Texture playerTexture, Animation<TextureRegion> walkAnimation) {
         super(x, y, width, height, health, damage);
         this.initialX = x;
         this.initialY = y;
@@ -31,11 +33,14 @@ public class Player extends Entity {
         this.age = 90;
         this.playerLevel = new PlayerLevel(resourceManager);
         this.playerTexture = playerTexture;
+        this.walkAnimation = walkAnimation;
+        this.stateTime = 0f;
     }
 
-    // public void update(float deltaTime) {
-    //     //not necessary atm but will be later
-    // }
+    public void update(float deltaTime) {
+       stateTime += deltaTime;
+    }
+
     //method to update player stats based on multiplier
     public void updateStats(float multiplier) {
         this.health = (int) (baseHealth * multiplier);
@@ -63,6 +68,10 @@ public class Player extends Entity {
         bounds.x += speed;
     }
 
+    public TextureRegion getFrame() {
+        return walkAnimation.getKeyFrame(stateTime, true);
+    }
+
     //method to handle player defeat
     protected void onDefeated() {
         super.onDefeated(); //will be used for future implementations, currently has no use
@@ -73,6 +82,7 @@ public class Player extends Entity {
     public boolean isAlive() {
         return isAlive;
     }
+
     //method to reset the player
     public void resetPlayer() {
         if (!isAlive) {

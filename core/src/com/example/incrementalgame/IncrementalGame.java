@@ -84,7 +84,7 @@ public class IncrementalGame extends ApplicationAdapter {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(assets.groundTexture, 0, 0, GameConfig.WORLD_WIDTH, 50);
+        batch.draw(assets.backgroundTexture, 0, 0, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT); //draws the background to fill the entire game screen
 
         //updating managers
         entityManager.update(Gdx.graphics.getDeltaTime());
