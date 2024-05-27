@@ -60,12 +60,14 @@ public class PrestigeManager {
 
         entityManager.getPlayer().resetAge();
         entityManager.getPlayer().resetStats();
+        entityManager.getPlayer().resetPlayer();
 
         waveManager.setWave(1);
         resourceManager.setExpMultiplier(waveManager.getCurrentWaveMultiplier());
+        System.out.println("Prestige performed. Player state reset.");
 
-        prestigeLevel++;
-        nextPrestigeRequirement *= 2;
+        // prestigeLevel++;
+        // nextPrestigeRequirement *= 2;
     }
     
     public void prestigeBuildings() {

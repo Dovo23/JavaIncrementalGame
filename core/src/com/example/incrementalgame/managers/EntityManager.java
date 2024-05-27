@@ -22,14 +22,14 @@ public class EntityManager {
         this.resourceManager = resourceManager;
         this.waveManager = waveManager;
         enemies = new Array<>();
-        player = new Player(-50, -30, 256, 256, 50, 3, resourceManager, assets.playerTexture, assets.walkAnimation);
+        player = new Player(-50, -30, 256, 256, 500, 3, resourceManager, assets.playerTexture, assets.walkAnimation, assets.attackAnimation, assets.defeatAnimation);
         ageManager = new AgeManager(player);
         waveManager.initialize(this);
     }
 
     //method to spawn enemies with different stats based on the wave multiplier
     public void spawnEnemies(float healthMulti, float damageMulti, float expMulti) {
-        Enemy enemy1 = new Enemy(700, 60, 64, 64, (int) (10 * healthMulti), (int) (1 * damageMulti));
+        Enemy enemy1 = new Enemy(700, 60, 64, 64, (int) (500 * healthMulti), (int) (1 * damageMulti));
         enemy1.setResourceManager(resourceManager);
         enemy1.setWaveManager(waveManager);
         enemies.add(enemy1);
@@ -57,7 +57,7 @@ public class EntityManager {
         player.checkExpThreshold();
         ageManager.update(deltaTime);
         player.update(deltaTime);
-        movement();
+        //movement();
         checkCollisions();
 
         //removing defeated enemies from the array
@@ -66,13 +66,14 @@ public class EntityManager {
                 enemies.removeIndex(i);
             }
         }
-        if (player.isDefeated()) {
-            player.resetPlayer();
-            // enemies.clear(); breaks the game
+        if (player.isDefeated() && !player.isAlive()) {
+            //wait for the player to reset after 5 seconds in the Player class
+            return;
         }
         //starting the next wave if all enemies are defeated
-        if (enemies.size == 0) {
+        if (enemies.size == 0 && !player.isDefeated()) {
             player.resetPlayerPos();
+            player.resetPlayer();
             waveManager.startNextWave();
         }
         //prestige once the player reaches 100 years old
@@ -84,9 +85,12 @@ public class EntityManager {
 
     //method to check for collisions between player and enemies with LibGDX 
     private void checkCollisions() {
-        if (player != null) {
-            for (Enemy enemy : enemies) {
-                if (player.getBounds().overlaps(enemy.getBounds())) {
+    if (player != null) {
+        for (Enemy enemy : enemies) {
+            if (player.getBounds().overlaps(enemy.getBounds())) {
+                System.out.println("Collision detected! Player Status: " + player.isDefeated());
+                if (!player.isDefeated()) {
+                    player.triggerAttack();
                     player.takeDamage(enemy.getDamage());
                     enemy.takeDamage(player.getDamage());
                     System.out.println("Player health: " + player.getCurrentHealth() + " Enemy health: " + enemy.getHealth() + " Enemy damage: " + enemy.getDamage() + " Player damage: " + player.getDamage());
@@ -94,6 +98,8 @@ public class EntityManager {
             }
         }
     }
+}
+
 
     public void movement() {
         if (player != null && player.isAlive()) {
