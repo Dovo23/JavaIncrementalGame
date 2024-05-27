@@ -11,9 +11,33 @@ import com.example.incrementalgame.loot.Exp;
 public class Enemy extends Entity {
     private ResourceManager resourceManager;
     private WaveManager waveManager;
+    private float attackTimer = 0f;
+    private boolean isAttackReady = true;
 
     public Enemy(float x, float y, float width, float height, int health, int damage) {
         super(x, y, width, height, health, damage);
+    }
+
+    public void update(float deltaTime) {
+        if (!isDefeated) {
+            attackTimer += deltaTime;
+            if (attackTimer >= 2f) {
+                isAttackReady = true;
+                attackTimer = 0f;
+            }
+        }
+    }
+
+    public void triggerAttack() {
+        if (isAttackReady && !isDefeated) {
+            isAttackReady = false;
+            // Attack logic here
+            System.out.println("Enemy attacks!");
+        }
+    }
+
+    public boolean isAttackReady() {
+        return isAttackReady;
     }
 
     //method to define dropped loot

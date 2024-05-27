@@ -22,14 +22,14 @@ public class EntityManager {
         this.resourceManager = resourceManager;
         this.waveManager = waveManager;
         enemies = new Array<>();
-        player = new Player(-50, -30, 256, 256, 500, 3, resourceManager, assets.playerTexture, assets.walkAnimation, assets.attackAnimation, assets.defeatAnimation);
+        player = new Player(-50, -30, 256, 256, 50, 3, resourceManager, assets.playerTexture, assets.walkAnimation, assets.attackAnimation, assets.defeatAnimation);
         ageManager = new AgeManager(player);
         waveManager.initialize(this);
     }
 
     //method to spawn enemies with different stats based on the wave multiplier
     public void spawnEnemies(float healthMulti, float damageMulti, float expMulti) {
-        Enemy enemy1 = new Enemy(700, 60, 64, 64, (int) (500 * healthMulti), (int) (1 * damageMulti));
+        Enemy enemy1 = new Enemy(700, 60, 64, 64, (int) (500 * healthMulti), (int) (2 * damageMulti));
         enemy1.setResourceManager(resourceManager);
         enemy1.setWaveManager(waveManager);
         enemies.add(enemy1);
@@ -54,10 +54,15 @@ public class EntityManager {
         if (Gdx.input.isKeyPressed(Input.Keys.L)) {
             resourceManager.addExp(500);
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            waveManager.setWave(waveManager.getWaveNumber() + 1);;
+        }
         player.checkExpThreshold();
         ageManager.update(deltaTime);
         player.update(deltaTime);
-        //movement();
+        for (Enemy enemy : enemies) {
+            enemy.update(deltaTime);
+        }
         checkCollisions();
 
         //removing defeated enemies from the array
@@ -84,21 +89,28 @@ public class EntityManager {
     }
 
     //method to check for collisions between player and enemies with LibGDX 
-    private void checkCollisions() {
-    if (player != null) {
-        for (Enemy enemy : enemies) {
-            if (player.getBounds().overlaps(enemy.getBounds())) {
-                System.out.println("Collision detected! Player Status: " + player.isDefeated());
-                if (!player.isDefeated()) {
-                    player.triggerAttack();
-                    player.takeDamage(enemy.getDamage());
-                    enemy.takeDamage(player.getDamage());
-                    System.out.println("Player health: " + player.getCurrentHealth() + " Enemy health: " + enemy.getHealth() + " Enemy damage: " + enemy.getDamage() + " Player damage: " + player.getDamage());
+     private void checkCollisions() {
+        if (player != null) {
+            for (Enemy enemy : enemies) {
+                if (player.getBounds().overlaps(enemy.getBounds())) {
+                    System.out.println("Collision detected! Player Status: " + player.isDefeated());
+                    if (!player.isDefeated()) {
+                        player.triggerAttack();
+                        //player.takeDamage(enemy.getDamage());
+                        enemy.takeDamage(player.getDamage());
+                        System.out.println("Player health: " + player.getCurrentHealth() + " Enemy health: " + enemy.getHealth() + " Enemy damage: " + enemy.getDamage() + " Player damage: " + player.getDamage());
+                    }
+
+                    // Enemy attacks player
+                    if (!enemy.isDefeated() && enemy.isAttackReady()) {
+                        enemy.triggerAttack();
+                        player.takeDamage(enemy.getDamage());
+                        System.out.println("Enemy attacks! Player health: " + player.getCurrentHealth() + " Enemy health: " + enemy.getCurrentHealth());
+                    }
                 }
             }
         }
     }
-}
 
 
     public void movement() {
