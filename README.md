@@ -1,2 +1,2 @@
 ﻿# JavaIncremental
-Installation Guide coming soon!
+installation guide and documentation coming soon!
