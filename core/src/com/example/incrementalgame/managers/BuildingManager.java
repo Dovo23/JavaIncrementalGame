@@ -91,7 +91,7 @@ public class BuildingManager {
     
      //check if Kingdom building can be purchased
     public boolean isKingdomPurchaseable() {
-        return resourceManager.getGold() >= 1000 && "Peasant".equals(entityManager.getPlayer().getTitle());  //temporary values for testing
+        return resourceManager.getGold() >= 100000 && "King".equals(entityManager.getPlayer().getTitle());  //temporary values for testing
     }
 
     //method to get the total gold per second to display in the hud

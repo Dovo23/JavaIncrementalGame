@@ -17,7 +17,7 @@ public class EntityView {
 
     public void render(SpriteBatch batch, EntityManager entityManager, ResourceManager resourceManager) {
         for (Enemy enemy : entityManager.getEnemies()) {
-            batch.draw(assets.enemyTexture, enemy.getBounds().x, enemy.getBounds().y, enemy.getBounds().width, enemy.getBounds().height);
+            batch.draw(enemy.getFrame(), enemy.getBounds().x, enemy.getBounds().y, enemy.getBounds().width, enemy.getBounds().height);
         }
         Player player = entityManager.getPlayer();
         if (player != null) {

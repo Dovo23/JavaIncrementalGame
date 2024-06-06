@@ -1,3 +1,4 @@
+// Player.java
 package com.example.incrementalgame.entities;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -23,13 +24,13 @@ public class Player extends Entity {
     private boolean isWalking;
     private boolean isAttacking;
     private boolean isDefeated;
-
     private float attackTimer = 0f;
     private float defeatTimer = 0f;
     private boolean isAttackReady = true;
+    private float attackCooldown = 0.5f; // Adjust cooldown duration as needed
 
     public Player(float x, float y, float width, float height, int health, int damage, ResourceManager resourceManager,
-            Texture playerTexture, Animation<TextureRegion> walkAnimation, Animation<TextureRegion> attackAnimation, Animation<TextureRegion> defeatAnimation) {
+                  Texture playerTexture, Animation<TextureRegion> walkAnimation, Animation<TextureRegion> attackAnimation, Animation<TextureRegion> defeatAnimation) {
         super(x, y, width, height, health, damage);
         this.initialX = x;
         this.initialY = y;
@@ -49,51 +50,67 @@ public class Player extends Entity {
         this.isWalking = true;
         this.isAttacking = false;
         this.isDefeated = false;
+
+        System.out.println("Initialized Player with attack animation duration: " + attackAnimation.getAnimationDuration());
     }
 
-     public void update(float deltaTime) {
-    stateTime += deltaTime;
-    if (isAttacking) {
-        attackTimer += deltaTime;
-        if (attackTimer >= 2f) {
-            isAttackReady = true;
-            attackTimer = 0f;
+    public void update(float deltaTime) {
+        stateTime += deltaTime;
+
+        // Update attack timer and check if attack is ready
+        if (isAttacking) {
+            attackTimer += deltaTime;
+            System.out.println("isAttacking loop reached! Attack Timer: " + attackTimer + " Attack Animation Duration: " + attackAnimation.getAnimationDuration());
+
+            if (attackTimer >= attackAnimation.getAnimationDuration()) {
+                isAttacking = false; 
+                isAttackReady = false;
+                attackTimer = 0f;
+                System.out.println("Attack finished: isAttacking set to false, isAttackReady set to false" + " isAttacking: " + isAttacking + ", isAttackReady: " + isAttackReady);
+            }
+        } else {
+
+            if (!isAttackReady) {
+                attackTimer += deltaTime;
+                if (attackTimer >= attackCooldown) {
+                    isAttackReady = true;
+                    attackTimer = 0f;
+                    System.out.println("Cooldown finished: isAttackReady set to true");
+                }
+            }
         }
-    }
-    if (isDefeated) {
-        defeatTimer += deltaTime;
-        if (defeatTimer >= 3f) {
-            resetPlayer();
-            defeatTimer = 0f;
+
+        System.out.println("Player attack timer= " + attackTimer + ", isAttackReady=" + isAttackReady);
+
+        // Update defeat timer
+        if (isDefeated) {
+            defeatTimer += deltaTime;
+            if (defeatTimer >= 3f) {
+                resetPlayer();
+                defeatTimer = 0f;
+            }
+        } else if (isWalking) {
+            moveRight(200 * deltaTime);
         }
-    } else if (isWalking) {
-        moveRight(200 * deltaTime);
+
+        System.out.println("Player update: isDefeated=" + isDefeated + ", isWalking=" + isWalking + ", isAttacking=" + isAttacking);
     }
 
-    // Debugging output
-    System.out.println("Player update: isDefeated=" + isDefeated + ", isWalking=" + isWalking + ", isAttacking=" + isAttacking);
-}
-
-
-    //method to update player stats based on multiplier
     public void updateStats(float multiplier) {
         this.health = (int) (baseHealth * multiplier);
         this.damage = (int) (baseDamage * multiplier);
         this.currentHealth = health;
     }
 
-    //method to increase the base stats of the player through the title system
     public void increaseBaseStats(int BaseDamage, int BaseHealth) {
         this.baseHealth = BaseHealth;
         this.baseDamage = BaseDamage;
     }
 
-    //was used to test stuff
     public void checkExpThreshold() {
         playerLevel.checkExpThreshold(this);
     }
 
-    //movement methods
     public void moveLeft(float speed) {
         bounds.x -= speed;
     }
@@ -101,21 +118,18 @@ public class Player extends Entity {
     public void moveRight(float speed) {
         bounds.x += speed;
     }
-    
+
     public TextureRegion getFrame() {
-    if (isDefeated) {
-        return defeatAnimation.getKeyFrame(stateTime, false);
-    } else if (isAttacking) {
-        return attackAnimation.getKeyFrame(stateTime, true);
-    } else if (isWalking) {
-        return walkAnimation.getKeyFrame(stateTime, true);
-    } else {
-        // Handle the case when none of the conditions are true
-        System.err.println("Unexpected player state: not walking, attacking, or defeated. Defaulting to walk animation.");
-        // Handle the case when none of the conditions are true
-        return walkAnimation.getKeyFrame(stateTime, true); // Fallback to walking animation
+        if (isDefeated) {
+            return defeatAnimation.getKeyFrame(stateTime, false);
+        } else if (isAttacking) {
+            return attackAnimation.getKeyFrame(stateTime, false); // Play attack animation only once
+        } else if (isWalking) {
+            return walkAnimation.getKeyFrame(stateTime, true);
+        } else {
+            return new TextureRegion(playerTexture, 128, 128); // Fallback to a default frame
+        }
     }
-}
 
     public void triggerAttack() {
         if (isAttackReady) {
@@ -123,6 +137,10 @@ public class Player extends Entity {
             isAttacking = true;
             stateTime = 0f;
             isAttackReady = false;
+            attackTimer = 0f; 
+            System.out.println("Player attack triggered as intended! isAttacking: " + isAttacking + ", attackTimer: " + attackTimer);
+        } else {
+            System.out.println("Player attack not ready! isAttacking: " + isAttacking + ", isAttackReady: " + isAttackReady);
         }
     }
 
@@ -134,7 +152,6 @@ public class Player extends Entity {
         defeatTimer = 0f;
     }
 
-    //method to handle player defeat
     @Override
     protected void onDefeated() {
         super.onDefeated();
@@ -143,40 +160,33 @@ public class Player extends Entity {
         System.out.println("Player defeated!");
     }
 
-     @Override
-     public void takeDamage(int damage) {
-         if (!isDefeated) {
-             super.takeDamage(damage);
-         }
-     }
-    
+    @Override
+    public void takeDamage(int damage) {
+        if (!isDefeated) {
+            super.takeDamage(damage);
+        }
+    }
+
     public boolean isAlive() {
         return !isDefeated;
     }
 
-    //method to reset the player
+    public boolean isAttackReady() {
+        return isAttackReady;
+    }
+
     public void resetPlayer() {
-    this.currentHealth = health;
-    resetPlayerPos();
-    isDefeated = false;
-    setDefeated(false);
-    isWalking = true;
-    isAttacking = false;
-    isAttackReady = true;
-    stateTime = 0f;
-    isAlive = true;
-
-    //debugging output
-    System.out.println("Player reset: isDefeated=" + isDefeated + ", isWalking=" + isWalking + ", isAttacking=" + isAttacking);
-}
-
-
-
-    public void resetAnims() {
-        stateTime = 0f;
+        this.currentHealth = health;
+        resetPlayerPos();
+        isDefeated = false;
+        setDefeated(false);
         isWalking = true;
         isAttacking = false;
-        isDefeated = false;
+        isAttackReady = true;
+        stateTime = 0f;
+        isAlive = true;
+
+        System.out.println("Player reset: isDefeated=" + isDefeated + ", isWalking=" + isWalking + ", isAttacking=" + isAttacking);
     }
 
     public void resetPlayerPos() {
@@ -204,13 +214,8 @@ public class Player extends Entity {
         age++;
     }
 
-    //reset methods used for prestige
     public void resetAge() {
         age = 15;
-    }
-
-    public void setAttacking(boolean attacking) {
-        isAttacking = attacking;
     }
 
     public void resetStats() {
