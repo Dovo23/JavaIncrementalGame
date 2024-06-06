@@ -1,4 +1,7 @@
 package com.example.incrementalgame.entities;
+
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Entity {
@@ -20,7 +23,7 @@ public class Entity {
     //method to apply damage to entity
     public void takeDamage(int damage) {
         this.currentHealth -= damage;
-        if (this.currentHealth < 0) {
+        if (this.currentHealth <= 0) {
             this.currentHealth = 0;
             setDefeated(true);
         }

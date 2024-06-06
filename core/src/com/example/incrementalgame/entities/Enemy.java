@@ -15,22 +15,21 @@ import com.example.incrementalgame.managers.WaveManager;
 public class Enemy extends Entity {
     private ResourceManager resourceManager;
     private WaveManager waveManager;
-    private Texture enemyTexture;
-    private Animation<TextureRegion> attackAnimation;
-    private Animation<TextureRegion> defeatAnimation;
+    private Animation<TextureRegion> attackAnimation, defeatAnimation, idleAnimation;
     private float stateTime;
     private boolean isAttacking;
     private boolean isDefeated = false;
     private float attackTimer = 0f;
     private float defeatTimer = 0f;
     private boolean isAttackReady = true;
+    private float attackCooldown = 1.5f; 
 
-    public Enemy(float x, float y, float width, float height, int health, int damage, Texture enemyTexture, Animation<TextureRegion> attackAnimation, Animation<TextureRegion> defeatAnimation) {
+    public Enemy(float x, float y, float width, float height, int health, int damage, Animation<TextureRegion> attackAnimation, Animation<TextureRegion> defeatAnimation, Animation<TextureRegion> idleAnimation) {
         super(x, y, width, height, health, damage);
         this.attackAnimation = attackAnimation;
         this.defeatAnimation = defeatAnimation;
+        this.idleAnimation = idleAnimation;
         this.stateTime = 0f;
-        this.enemyTexture = enemyTexture;
         this.isAttacking = false;
         this.isDefeated = false;
         this.isAttackReady = true;
@@ -38,12 +37,25 @@ public class Enemy extends Entity {
 
     public void update(float deltaTime) {
         stateTime += deltaTime;
-        if (isAttacking) {
+         if (isAttacking) {
             attackTimer += deltaTime;
+            System.out.println("isAttacking loop reached! Attack Timer: " + attackTimer + " Attack Animation Duration: " + attackAnimation.getAnimationDuration());
+
             if (attackTimer >= attackAnimation.getAnimationDuration()) {
-                isAttacking = false; // Reset attacking state after animation finishes
-                isAttackReady = true;
+                isAttacking = false; 
+                isAttackReady = false;
                 attackTimer = 0f;
+                System.out.println("Attack finished: isAttacking set to false, isAttackReady set to false" + " isAttacking: " + isAttacking + ", isAttackReady: " + isAttackReady);
+            }
+        } else {
+
+            if (!isAttackReady) {
+                attackTimer += deltaTime;
+                if (attackTimer >= attackCooldown) {
+                    isAttackReady = true;
+                    attackTimer = 0f;
+                    System.out.println("Cooldown finished: isAttackReady set to true");
+                }
             }
         }
         System.out.println("Enemy attack timer= " + attackTimer + ", isAttackReady=" + isAttackReady);
@@ -90,7 +102,7 @@ public class Enemy extends Entity {
         List<Loot> drops = new ArrayList<>();
         float expMultiplier = waveManager.getExpMulti();
         drops.add(new GoldLoot(5000)); // Currently hardcoded
-        drops.add(new Exp((int) (20 * expMultiplier)));
+        drops.add(new Exp((int) (20 * expMultiplier)));  // Currently hardcoded
         return drops;
     }
 
@@ -114,9 +126,9 @@ public class Enemy extends Entity {
         if (isDefeated) {
             return defeatAnimation.getKeyFrame(stateTime, false);
         } else if (isAttacking) {
-            return attackAnimation.getKeyFrame(stateTime, false); // Play attack animation only once
+            return attackAnimation.getKeyFrame(stateTime, false); 
         } else {
-            return new TextureRegion(enemyTexture); // Default to idle frame
+            return idleAnimation.getKeyFrame(stateTime, true);
         }
     }
 

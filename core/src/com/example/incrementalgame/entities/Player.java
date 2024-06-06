@@ -19,7 +19,7 @@ public class Player extends Entity {
     private int age;
     private PlayerLevel playerLevel;
     private Texture playerTexture;
-    private Animation<TextureRegion> walkAnimation, attackAnimation, defeatAnimation;
+    private Animation<TextureRegion> walkAnimation, attackAnimation, defeatAnimation, idleAnimation;
     private float stateTime;
     private boolean isWalking;
     private boolean isAttacking;
@@ -27,10 +27,9 @@ public class Player extends Entity {
     private float attackTimer = 0f;
     private float defeatTimer = 0f;
     private boolean isAttackReady = true;
-    private float attackCooldown = 0.5f; // Adjust cooldown duration as needed
-
+    private float attackCooldown = 1.5f; 
     public Player(float x, float y, float width, float height, int health, int damage, ResourceManager resourceManager,
-                  Texture playerTexture, Animation<TextureRegion> walkAnimation, Animation<TextureRegion> attackAnimation, Animation<TextureRegion> defeatAnimation) {
+                  Texture playerTexture, Animation<TextureRegion> walkAnimation, Animation<TextureRegion> attackAnimation, Animation<TextureRegion> defeatAnimation, Animation<TextureRegion> idleAnimation) {
         super(x, y, width, height, health, damage);
         this.initialX = x;
         this.initialY = y;
@@ -44,6 +43,7 @@ public class Player extends Entity {
         this.walkAnimation = walkAnimation;
         this.attackAnimation = attackAnimation;
         this.defeatAnimation = defeatAnimation;
+        this.idleAnimation = idleAnimation;
         this.stateTime = 0f;
         this.defeatTimer = 0f;
         this.attackTimer = 0f;
@@ -127,7 +127,7 @@ public class Player extends Entity {
         } else if (isWalking) {
             return walkAnimation.getKeyFrame(stateTime, true);
         } else {
-            return new TextureRegion(playerTexture, 128, 128); // Fallback to a default frame
+            return idleAnimation.getKeyFrame(stateTime, true);
         }
     }
 

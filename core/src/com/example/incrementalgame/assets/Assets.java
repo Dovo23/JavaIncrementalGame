@@ -10,10 +10,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
     public Texture groundTexture, playerRunTexture, buttonTexture, enemyTexture, playerTexture,
-            walkSheet, attackSheet, defeatSheet, wormAttackSheet, wormDefeatSheet, backgroundTexture;
+            walkSheet, attackSheet, defeatSheet, idleSheet, wormAttackSheet, wormDefeatSheet, wormIdleSheet, backgroundTexture;
     public BitmapFont font;
-    public Animation<TextureRegion> walkAnimation, attackAnimation, defeatAnimation, wormAttackAnimation,
-            wormDefeatAnimation;
+    public Animation<TextureRegion> walkAnimation, attackAnimation, defeatAnimation, idleAnimation, wormAttackAnimation,
+            wormDefeatAnimation, wormIdleAnimation;
     public Sound playerHitSound;
     private Sound playerAttackSound;
 
@@ -21,7 +21,7 @@ public class Assets {
         try {
             // using LibGdX to load assets, assets are stored in the assets folder
             groundTexture = new Texture(Gdx.files.internal("greenSquare.png"));
-            enemyTexture = new Texture(Gdx.files.internal("wormSprite.png"));
+            //enemyTexture = new Texture(Gdx.files.internal("wormSprite.png"));
             buttonTexture = new Texture(Gdx.files.internal("button.png"));
             playerTexture = new Texture(Gdx.files.internal("playerSprite.png"));
             backgroundTexture = new Texture(Gdx.files.internal("forest_bg.jpg"));
@@ -55,6 +55,21 @@ public class Assets {
             }
             defeatAnimation = new Animation<>(0.1f, defeatFrames);
 
+            idleSheet = new Texture(Gdx.files.internal("playerIdle.png"));
+            TextureRegion[][] idleTmp = TextureRegion.split(idleSheet, idleSheet.getWidth() / 10,
+                    idleSheet.getHeight());
+            TextureRegion[] idleFrames = new TextureRegion[10];
+            for (int i = 0; i < 10; i++) {
+                idleFrames[i] = idleTmp[0][i];
+            }
+            idleAnimation = new Animation<>(0.1f, idleFrames);
+
+
+
+
+
+
+
             // worm animations
             wormAttackSheet = new Texture(Gdx.files.internal("wormAttack.png"));
             TextureRegion[][] wormAttackTmp = TextureRegion.split(wormAttackSheet, wormAttackSheet.getWidth() / 16,
@@ -74,6 +89,19 @@ public class Assets {
             }
             wormDefeatAnimation = new Animation<>(0.1f, wormDefeatFrames);
 
+            wormIdleSheet = new Texture(Gdx.files.internal("wormIdle.png"));
+            TextureRegion[][] wormIdleTmp = TextureRegion.split(wormIdleSheet, wormIdleSheet.getWidth() / 9,
+                    wormIdleSheet.getHeight());
+            TextureRegion[] wormIdleFrames = new TextureRegion[9];
+            for (int i = 0; i < 9; i++) {
+                wormIdleFrames[i] = wormIdleTmp[0][i];
+            }
+            wormIdleAnimation = new Animation<>(0.1f, wormIdleFrames);
+    
+
+
+
+            //sounds
             playerHitSound = Gdx.audio.newSound(Gdx.files.internal("playerHit.mp3"));
             playerAttackSound = Gdx.audio.newSound(Gdx.files.internal("playerAttack.mp3"));
 
@@ -93,7 +121,7 @@ public class Assets {
     public void dispose() {
         groundTexture.dispose();
         playerTexture.dispose();
-        enemyTexture.dispose();
+        //enemyTexture.dispose();
         buttonTexture.dispose();
         backgroundTexture.dispose();
         walkSheet.dispose();

@@ -25,17 +25,16 @@ public class EntityManager {
         this.waveManager = waveManager;
         //this.soundManager = soundManager;
         enemies = new Array<>();
-        player = new Player(-50, -30, 256, 256, 50, 3, resourceManager, assets.playerTexture, assets.walkAnimation, assets.attackAnimation, assets.defeatAnimation);
+        player = new Player(-50, -30, 256, 256, 50, 3, resourceManager, assets.playerTexture, assets.walkAnimation, assets.attackAnimation, assets.defeatAnimation, assets.idleAnimation);
         ageManager = new AgeManager(player);
         waveManager.initialize(this);
     }
 
     public void spawnEnemies(float healthMulti, float damageMulti, float expMulti) {
-        Enemy enemy1 = new Enemy(700, 60, 64, 64, (int) (500 * healthMulti), (int) (2 * damageMulti), assets.enemyTexture, assets.wormAttackAnimation, assets.wormDefeatAnimation);
+        Enemy enemy1 = new Enemy(700, 60, 64, 64, (int) (5 * healthMulti), (int) (2 * damageMulti), assets.wormAttackAnimation, assets.wormDefeatAnimation, assets.wormIdleAnimation);
         enemy1.setResourceManager(resourceManager);
         enemy1.setWaveManager(waveManager);
         enemies.add(enemy1);
-        System.out.println("Enemy1HP:" + enemy1.getHealth() + " Enemy1Damage:" + enemy1.getDamage());
     }
 
     public void addEnemy(Enemy enemy) {
