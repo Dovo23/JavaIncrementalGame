@@ -3,7 +3,7 @@ package com.example.incrementalgame.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.Texture;
+//import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.example.incrementalgame.interfaces.Loot;
@@ -143,4 +143,6 @@ public class Enemy extends Entity {
     public void setWaveManager(WaveManager waveManager) {
         this.waveManager = waveManager;
     }
+
+    
 }

@@ -18,7 +18,7 @@ public class Player extends Entity {
     private int baseDamage;
     private int age;
     private PlayerLevel playerLevel;
-    private Texture playerTexture;
+    //private Texture playerTexture;
     private Animation<TextureRegion> walkAnimation, attackAnimation, defeatAnimation, idleAnimation;
     private float stateTime;
     private boolean isWalking;
@@ -39,7 +39,7 @@ public class Player extends Entity {
         this.baseDamage = damage;
         this.age = 90;
         this.playerLevel = new PlayerLevel(resourceManager);
-        this.playerTexture = playerTexture;
+        //this.playerTexture = playerTexture;
         this.walkAnimation = walkAnimation;
         this.attackAnimation = attackAnimation;
         this.defeatAnimation = defeatAnimation;
